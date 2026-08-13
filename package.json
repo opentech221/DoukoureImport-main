@@ -1,0 +1,38 @@
+{
+  "name": "figma-make-app",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "build:analyze": "vite build --mode analyze",
+    "preview": "vite preview",
+    "format": "oxfmt",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "qa:gates": "node scripts/quality-gates.mjs"
+  },
+  "dependencies": {
+    "@supabase/postgrest-js": "^2.112.3",
+    "@supabase/storage-js": "^2.112.3",
+    "@supabase/supabase-js": "^2.112.2",
+    "lucide-react": "^1.30.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rollup-plugin-visualizer": "^7.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^6.0.0",
+    "jsdom": "^30.0.1",
+    "oxfmt": "^0.2.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.0",
+    "vite": "^8.0.0",
+    "vitest": "^4.1.10"
+  }
+}

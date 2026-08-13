@@ -1,0 +1,72 @@
+{
+  "generatedAt": "2026-08-12T22:40:03.267Z",
+  "environment": "local",
+  "verdict": "passed",
+  "budgets": {
+    "status": "passed",
+    "entryBundleKb": 13.08,
+    "totalJsKb": 399.48,
+    "entryBudgetKb": 40,
+    "totalBudgetKb": 420
+  },
+  "steps": [
+    {
+      "label": "build",
+      "status": "passed",
+      "startedAt": "2026-08-12T22:34:42.187Z",
+      "finishedAt": "2026-08-12T22:34:58.765Z"
+    },
+    {
+      "label": "bundle-budgets",
+      "status": "passed",
+      "startedAt": "2026-08-12T22:34:58.781Z",
+      "finishedAt": "2026-08-12T22:34:58.781Z",
+      "entryBundleKb": 13.08,
+      "totalJsKb": 399.48,
+      "entryBudgetKb": 40,
+      "totalBudgetKb": 420
+    },
+    {
+      "label": "synthetic-checks:ProductPage.test.tsx",
+      "status": "passed",
+      "startedAt": "2026-08-12T22:34:58.781Z",
+      "finishedAt": "2026-08-12T22:35:28.142Z"
+    },
+    {
+      "label": "synthetic-checks:TrackingDashboard.test.tsx",
+      "status": "passed",
+      "startedAt": "2026-08-12T22:35:28.142Z",
+      "finishedAt": "2026-08-12T22:35:55.356Z"
+    },
+    {
+      "label": "synthetic-checks:DeliveryPass.test.tsx",
+      "status": "passed",
+      "startedAt": "2026-08-12T22:35:55.356Z",
+      "finishedAt": "2026-08-12T22:36:31.898Z"
+    },
+    {
+      "label": "synthetic-checks:deliveryPassOffline.test.ts",
+      "status": "passed",
+      "startedAt": "2026-08-12T22:36:31.898Z",
+      "finishedAt": "2026-08-12T22:37:01.161Z"
+    },
+    {
+      "label": "synthetic-checks:paymentService.test.ts",
+      "status": "passed",
+      "startedAt": "2026-08-12T22:37:01.161Z",
+      "finishedAt": "2026-08-12T22:37:31.557Z"
+    },
+    {
+      "label": "synthetic-checks:endpointLogic.integration.test.ts",
+      "status": "passed",
+      "startedAt": "2026-08-12T22:37:31.557Z",
+      "finishedAt": "2026-08-12T22:38:14.700Z"
+    },
+    {
+      "label": "synthetic-checks:orderLifecycle.test.ts",
+      "status": "passed",
+      "startedAt": "2026-08-12T22:38:14.700Z",
+      "finishedAt": "2026-08-12T22:40:03.249Z"
+    }
+  ]
+}

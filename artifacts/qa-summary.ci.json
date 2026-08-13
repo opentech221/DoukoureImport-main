@@ -1,0 +1,11 @@
+{
+  "environment": "local",
+  "verdict": "passed",
+  "budgets": {
+    "entryBudgetKb": 40,
+    "totalBudgetKb": 420,
+    "measuredEntryKb": 13.08,
+    "measuredTotalKb": 399.48
+  },
+  "failedSteps": []
+}

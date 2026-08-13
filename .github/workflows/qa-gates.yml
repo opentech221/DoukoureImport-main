@@ -1,0 +1,43 @@
+name: QA Gates
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  qa-gates:
+    runs-on: ubuntu-latest
+    env:
+      QA_ENV: ci
+      QA_ENTRY_BUNDLE_MAX_KB: 45
+      QA_TOTAL_BUNDLE_MAX_KB: 440
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run QA gates
+        run: node scripts/quality-gates.mjs
+
+      - name: Upload QA artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-gates-artifacts
+          path: |
+            artifacts/qa-summary.json
+            artifacts/qa-summary.md
+            artifacts/qa-summary.ci.json
+            artifacts/qa-gates.log
+          if-no-files-found: error

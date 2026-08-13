@@ -1,0 +1,10 @@
+{
+  "description": "Offers a responsive e-commerce platform with dynamic pricing, social commerce features, delivery tracking, and admin tools for seamless import sales management.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

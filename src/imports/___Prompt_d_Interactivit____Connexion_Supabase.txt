@@ -1,0 +1,239 @@
+🎯 Ticket 1.1.B : Composant Interactif "Simulateur Moteur de Calcul" (PricingSimulator.tsx)
+💬 PROMPT VS CODE COPILOT :
+
+Plaintext
+Crée un composant React Client Next.js 14 (App Router) stylisé avec Tailwind CSS nommé `PricingSimulator.tsx` pour l'onglet Moteur de Doucoure Import.
+
+Fonctionnalités & Comportement :
+1. Définir des états React pour les paramètres réactifs :
+   - `basePriceXOF` (default: 45000)
+   - `estimatedWeight` (default: 1.2)
+   - `dimensions` ({ length: 32, width: 22, height: 12 })
+   - `shippingOption` ('AIR_EXPRESS' | 'AIR_ECO' | 'MARITIME')
+   - `marginPercentage` (default: 15)
+   - `actualWeight` (default: 1.4)
+2. Utiliser la fonction `calculateInitialImportPrice()` de `pricingEngine.ts` pour calculer en direct :
+   - Le volume CBM
+   - Le coût du fret, le sous-total, la marge et le Prix Total TTC
+   - L'acompte (2/3) et le solde estimé (1/3)
+3. Utiliser `recalculateBalanceOnChinaWeighing()` pour calculer la simulation de pesée réelle :
+   - Écart de poids en kg
+   - Surcoût ou réduction de transport en FCFA
+   - Nouveau Solde Final à la livraison
+4. Créer des contrôles utilisateur de type sliders (range inputs) et boutons de bascule pour modifier tous les paramètres en live.
+5. Afficher la carte de ventilation du prix avec le bloc vert émeraude et le récapitulatif des tests unitaires Vitest.
+
+
+🎯 Ticket 1.2.A : Composant Carrousel Média Rich (Photos & Lecteur Vidéo HTML5)
+💬 PROMPT VS CODE COPILOT :
+
+Plaintext
+Crée un composant React Client Next.js 14 (App Router) nommé `MediaRichCarousel.tsx` avec Tailwind CSS et Lucide Icons pour la fiche produit de Doukoure Import.
+
+Props reçues :
+- `mediaList`: Array d'objets `{ type: 'IMAGE' | 'VIDEO', url: string, thumbnail?: string, durationSec?: number }`.
+
+Fonctionnalités à implémenter :
+1. Grand affichage central de l'image ou de la vidéo sélectionnée avec boutons de navigation fléchés (< / >) et compteur d'index (ex: "3/4").
+2. Si l'élément actif est de type 'VIDEO' :
+   - Afficher un lecteur vidéo HTML5 `<video>` avec bouton Play/Pause personnalisé au centre, barre de progression et contrôle du son (mute/unmute).
+   - Afficher un badge orange en haut à gauche de la vidéo indiquant sa durée (ex: "24s").
+3. Rangée de vignettes (thumbnails) en bas du carrousel :
+   - Bordure rouge/indigo sur la vignette active.
+   - Sur les vignettes de type 'VIDEO', superposer une icône 'Play' et un badge montrant la durée (ex: "24s").
+4. Support du swipe tactile sur mobile.
+🎯 Ticket 1.2.B : Intégration du Moteur Dynamique dans le Sélecteur de Fret
+💬 PROMPT VS CODE COPILOT :
+
+Plaintext
+Crée le composant interactif `ShippingOptionSelector.tsx` pour Next.js 14 et Tailwind CSS.
+
+Logique métier & comportement d'état :
+1. Définir un état React `selectedOption` initialisé à 'AIR_EXPRESS'.
+2. Lors du clic sur l'une des 3 cartes ('Aérien Express', 'Aérien Éco', 'Fret Maritime') :
+   - Mettre à jour `selectedOption`.
+   - Déplacer la bordure de sélection bleue/indigo sur la carte cliquée.
+   - Appeler la fonction `calculateInitialImportPrice()` de `pricingEngine.ts` pour recalculer instantanément le Prix Total TTC, l'Acompte (2/3) et le Solde estimé (1/3).
+3. Afficher la carte Acompte en Vert Émeraude (#059669) avec le montant formaté en FCFA.
+4. Afficher le composant d'accordéon/tooltip dépliable expliquant la règle de réajustement du solde en cas de surpoids ou sous-poids après la pesée à l'entrepôt de Chine.
+🎯 Ticket 1.2.C : Actions de Commande Mobile Money & Contact WhatsApp
+💬 PROMPT VS CODE COPILOT :
+
+Plaintext
+Crée le composant de barre d'action fixe en bas d'écran `ProductStickyActions.tsx` pour Doukoure Import.
+
+Props reçues : `productName`, `productRef`, `depositAmountXOF`, `selectedShippingOption`.
+
+Fonctionnalités :
+1. Bouton principal Vert Massif : "Commander — Payer l'acompte {depositAmountXOF} FCFA".
+   - Au clic : Déclenche l'ouverture d'un Modal/Drawer de paiement pré-rempli pour amorcer la transaction Mobile Money (Wave / Orange Money).
+2. Bouton secondaire : "Poser une question sur WhatsApp".
+   - Au clic : Ouvre un lien `https://wa.me/221XXXXXXXX` pré-rempli avec le message : "Bonjour Doukoure Import, j'ai une question sur le produit {productName} (Réf: {productRef}) avec le mode de transport {selectedShippingOption}."
+3. Assurer un positionnement `sticky` ou `fixed` en bas de l'écran mobile avec un fond flouté (`backdrop-blur`).
+
+
+🎯 Ticket 2.0 : Bandeau d'Installation PWA (InstallPWAPrompt.tsx)
+💬 PROMPT VS CODE COPILOT :
+
+Plaintext
+Crée un composant React Client Next.js 14 (App Router) stylisé avec Tailwind CSS nommé `InstallPWAPrompt.tsx` pour l'application Doukoure Import.
+
+Fonctionnalités & Comportements attendus :
+1. Écouter l'événement browser native `beforeinstallprompt` et intercepter le déclencheur d'installation.
+2. Afficher un pop-up/bandeau flottant en bas d'écran avec :
+   - Titre : "Installer l'App Doukoure Import"
+   - Sous-titre : "Sans passer par le Play Store — fonctionne hors-ligne"
+   - Bouton vert : "Installer"
+   - Bouton d'annulation ("X")
+3. Au clic sur "Installer" : Déclencher `prompt()` natif pour ajouter la PWA sur l'écran d'accueil du téléphone.
+4. Au clic sur "X" : Masquer le composant et sauvegarder la préférence dans le `localStorage` (`pwa_prompt_dismissed = true`) pour ne plus déranger l'utilisateur pendant 7 jours.
+🎯 Ticket 2.1 : Widget Social Shopping Conteneur Maritime (SharedContainerProgress.tsx)
+💬 PROMPT VS CODE COPILOT :
+
+Plaintext
+Crée un composant React Client Next.js 14 avec Tailwind CSS et Framer Motion nommé `SharedContainerProgress.tsx` pour la page d'accueil de Doukoure Import.
+
+Props reçues : `containerId`, `targetCBM` (ex: 68), `allocatedCBM` (ex: 44.2), `clientCount` (ex: 23), `departureDate` (Date).
+
+Fonctionnalités à implémenter :
+1. Calculer le pourcentage de remplissage : `(allocatedCBM / targetCBM) * 100` (ex: 65%).
+2. Afficher une barre de progression animée avec un dégradé allant du vert émeraude (#059669) au jaune/ambre (#D97706).
+3. Afficher les métriques clés en grille 3 colonnes : Taux de remplissage (%), Nombre de clients, et Volume CBM restant libre (`targetCBM - allocatedCBM`).
+4. Intégrer un compte à rebours dynamique JS en direct (Jours / Heures / Minutes / Secondes) calculé par rapport à `departureDate`.
+5. Bouton vert d'action "Partager sur WhatsApp — Inviter des amis" :
+   - Au clic : Générer un lien `https://wa.me/?text=` avec le texte pré-rempli : "Aide-nous à remplir le Conteneur Maritime Dakar #{containerId} ({progress}% rempli) pour faire partir nos colis ! Regarde les offres ici : https://doucoureimport.sn".
+🎯 Ticket 2.2 : Module de Recherche par Image / Vidéo & Caméra PWA (ImageSearchUploader.tsx)
+💬 PROMPT VS CODE COPILOT :
+
+Plaintext
+Crée un composant React Client Next.js 14 avec Tailwind CSS nommé `ImageSearchUploader.tsx` pour la recherche visuelle sur Doukoure Import.
+
+Fonctionnalités & Comportements attendus :
+1. Zone de dépôt (Drag and Drop / File Picker) acceptant les images (JPG, PNG, WEBP) et vidéos courtes (MP4) jusqu'à 50 Mo.
+2. Bouton violet "Importer" : Ouvre le sélecteur de fichiers local du smartphone ou PC.
+3. Bouton vert "Caméra" : Déclenche l'appareil photo du smartphone via les attributs PWA natifs (`accept="image/*" capture="environment"`).
+4. Formulaire d'accompagnement :
+   - Input "Budget estimé (FCFA)"
+   - Input "Taille · Couleur · Quantité"
+   - Input "Votre numéro WhatsApp" (avec indicatif +221 Sénégal pré-rempli).
+5. Bouton de soumission "Trouver ce produit au prix usine Chine" :
+   - Envoyer les données (fichiers + formulaire) à l'API Supabase / Backend.
+   - Afficher un état de chargement (spinner) puis une notification Toast de confirmation : "Demande envoyée avec succès ! Nous vous recontacterons sous 24h sur WhatsApp."
+🎯 Ticket 2.3 : Grille des Produits Populaires (PopularProductsGrid.tsx)
+💬 PROMPT VS CODE COPILOT :
+
+Plaintext
+Crée le composant `PopularProductsGrid.tsx` pour afficher les cartes produits sur la page d'accueil de Doukoure Import.
+
+Props reçues : `products` (Array d'objets produits : id, name, priceXOF, rating, badge, imageUrl).
+
+Fonctionnalités :
+1. Afficher une grille responsive (2 colonnes sur mobile, 4 colonnes sur desktop).
+2. Pour chaque produit, afficher :
+   - L'image principale avec un badge d'accroche ("Populaire", "Nouveau", "Promo").
+   - Le nom du produit et la note (ex: 4.8 ⭐).
+   - Le prix de base estimé en FCFA.
+3. Comportement au clic : Chaque carte est un lien Next.js `<Link href={`/produit/${product.id}`}>` qui redirige directement l'utilisateur vers la Fiche Produit (Écran 1).
+
+
+🎯 Ticket 3.1 : Composant Timeline de Suivi (OrderTrackingTimeline.tsx)
+💬 PROMPT VS CODE COPILOT :
+
+Plaintext
+Crée un composant React Client Next.js 14 (App Router) nommé `OrderTrackingTimeline.tsx` avec Tailwind CSS et Lucide Icons pour Doukoure Import.
+
+Props reçues :
+- `orderData`: Object contenant `{ orderId, status, initialDepositPaid, shippingMode, estimatedWeight, actualWeight, inspectionPhotoUrl, inspectionVideoUrl, createdAt }`.
+
+Fonctionnalités à implémenter :
+1. En-tête avec identifiant de commande, badge de statut ("En cours" / "Livré") et récapitulatif de l'acompte payé.
+2. Timeline verticale à 7 étapes (Paiement, Achat Chine, Inspection & Pesée, En Transit, Douane Dakar, En livraison Paps, Livré) :
+   - Les étapes complétées affichent un cercle vert avec une icône Check.
+   - L'étape active ("Inspection & Pesée") est mise en valeur avec une bordure violette et un badge "En cours".
+   - Les étapes à venir s'affichent en gris.
+3. Gestion dynamique du responsive (timeline compacte sur mobile).
+🎯 Ticket 3.2 : Bloc d'Ajustement de Pesée & Modales Média (ChinaInspectionCard.tsx)
+💬 PROMPT VS CODE COPILOT :
+
+Plaintext
+Crée le composant `ChinaInspectionCard.tsx` pour Next.js 14 et Tailwind CSS.
+
+Props reçues : `estimatedWeight`, `actualWeight`, `shippingOption`, `initialDepositPaid`, `photoUrl`, `videoUrl`, `systemRates`.
+
+Fonctionnalités & Comportement :
+1. Calculer la différence de poids : `weightDiff = actualWeight - estimatedWeight`.
+2. Afficher la carte comparative : Poids estimé vs Poids réel, avec un badge central affichant l'écart (ex: "+0.2 kg" en rouge/ambre si surpoids, "-0.1 kg" en vert si sous-poids).
+3. Utiliser `pricingEngine.ts` pour calculer le solde ajusté final : `finalBalance = recalculateBalanceOnChinaWeighing(...)`.
+4. Bouton Photo Inspection : Au clic, ouvrir un dialog/modal Next.js pour prévisualiser la photo en haute résolution.
+5. Bouton Vidéo 360° : Au clic, ouvrir un modal avec un lecteur HTML5 `<video>` lisant la vidéo 360° d'inspection reçue de Guangzhou.
+6. Afficher le badge d'Ajustement "Solde final à régler à la livraison : {finalBalance} FCFA" avec la mention "COD - Encaissement par Paps".
+
+
+🎯 Ticket 4.1 : Composant Générateur de Pass & QR Code Offline (DeliveryPassCard.tsx)
+💬 PROMPT VS CODE COPILOT :
+
+Plaintext
+Crée un composant React Client Next.js 14 (App Router) nommé `DeliveryPassCard.tsx` avec Tailwind CSS, Lucide Icons et `qrcode.react` pour l'application Doukoure Import.
+
+Props reçues :
+- `orderData`: `{ orderId, customerName, address, phone, itemSummary, remainingBalance, papsCategory, isPaid }`.
+
+Fonctionnalités & Comportements :
+1. Afficher la carte d'expédition Paps avec le badge "Livraison Paps", la catégorie du colis, l'adresse du destinataire et le montant du solde à encaisser en Cash-On-Delivery (COD).
+2. Détecter l'état de la connexion internet via `navigator.onLine` :
+   - Si en ligne : Afficher le badge vert "En ligne".
+   - Si hors-ligne : Afficher un badge orange "Mode Hors-ligne (PWA Cache)" pour rassurer l'utilisateur.
+3. Utiliser `qrcode.react` pour générer un QR Code basé sur un payload JSON sécurisé :
+   `JSON.stringify({ orderId, remainingBalance, timestamp: Date.now() })`.
+4. Afficher le solde en grand sous le QR code avec la date d'expiration du jeton.
+5. Intégrer les 3 étapes d'instructions visuelles pour la remise du colis par le livreur.
+🎯 Ticket 4.2 : Module de Règlement Rapide & Copie de Référence (PassPaymentActions.tsx)
+💬 PROMPT VS CODE COPILOT :
+
+Plaintext
+Crée le composant `PassPaymentActions.tsx` stylisé avec Tailwind CSS pour Doukoure Import.
+
+Props reçues : `orderId`, `remainingBalanceAmount`, `customerPhone`.
+
+Fonctionnalités :
+1. Champ d'affichage du numéro de commande avec bouton "Copier" :
+   - Au clic sur "Copier" : Exécuter `navigator.clipboard.writeText(orderId)` et afficher une notification Toast "Numéro de commande copié !".
+2. Bouton principal Vert Massif : "Payer le solde via Wave / Orange Money".
+   - Au clic : Ouvrir la modale de paiement Mobile Money pré-remplie avec le montant exact du solde.
+   - Une fois le paiement en ligne effectué, mettre à jour le composant pour afficher un badge vert "Solde entièrement réglé ✓" et désactiver le besoin de paiement en espèces.
+3. Badges des modes de paiement acceptés sur place par le livreur : Wave, Orange Money, Espèces.
+
+
+🎯 Ticket 5.1 (Fusionné & Responsive) : Global Shipping Rates Settings & Live Simulation (GlobalShippingRateSettings.tsx)
+💬 PROMPT VS CODE COPILOT (Complet & Correctif Mobile) :
+
+Plaintext
+Crée un composant React Client Next.js 14 (App Router) stylisé avec Tailwind CSS nommé `GlobalShippingRateSettings.tsx` pour l'Espace Administration de Doukoure Import.
+
+📐 1. DIRECTIVES D'ARCHITECTURE UI/UX RESPONSIVE (MOBILE-FIRST) :
+- Corriger tous les problèmes de chevauchements et d'éléments tronqués sur mobile.
+- Layout adaptatif :
+  * Sur Mobile (`flex-col` / `grid-cols-1`) : Empiler verticalement le bloc "Configuration des Tarifs Globaux" en haut, et le bloc "Simulation Live — Impact Catalogue" juste en dessous.
+  * Sur Desktop (`md:grid-cols-2`) : Disposition côte à côte à 2 colonnes.
+- Formulaire propre :
+  * Donner une largeur complète (`w-full`) à tous les champs de saisie.
+  * Placer les étiquettes (labels) au-dessus des inputs avec des espacements clairs (`gap-4`, `p-4`) pour éliminer tout chevauchement de texte (ex: "FCFA/kg", "FCFA/m³", "%").
+- Cartes de Simulation :
+  * Chaque carte produit échantillon (Sneakers, Sac, TV) doit s'afficher dans un conteneur aéré.
+  * Présenter l'Ancien Prix vs Nouveau Prix et les badges Acompte (2/3) et Solde (1/3) de manière claire, sans rognage.
+- Hauteur tactile : Bouton de validation avec une hauteur minimale de 48px pour une utilisation confortable sur écran tactile.
+
+⚙️ 2. LOGIQUE MÉTIER & INTÉGRATION BACKEND :
+- Formulaire de configuration connecté à la table Supabase `system_settings` :
+  * `rateAirExpressXOF` (Input number, ex: 11000 FCFA)
+  * `rateAirEcoXOF` (Input number, ex: 7500 FCFA)
+  * `rateMaritimeCbmXOF` (Input number, ex: 145000 FCFA)
+  * `marginPercentage` (Input number, ex: 15%)
+- Définir des états réactifs React pour ces 4 variables :
+  * Dès que l'administrateur modifie une valeur dans les champs (avant même d'enregistrer), recalculer en temps réel les cartes de simulation "Impact Catalogue" pour comparer instantanément l'Ancien Prix et le Nouveau Prix.
+- Bouton "Enregistrer et appliquer à tout le catalogue" :
+  * Au clic : Envoyer une requête `POST /api/admin/update-settings` pour sauvegarder les nouveaux tarifs en base de données.
+  * Afficher une notification Toast de confirmation : "Nouveaux tarifs enregistrés ! Tout le catalogue Doukoure Import reflète désormais ces prix."
+- Sécurité & Règle métier :
+  * Inclure le badge d'information indiquant que les nouveaux tarifs s'appliquent immédiatement au catalogue, mais que les commandes déjà en cours conservent leur tarif verrouillé lors du paiement de l'acompte.
+- Navigation : Intégrer un bouton "← App Client" dans le header admin pour repasser facilement à la vue PWA utilisateur.
