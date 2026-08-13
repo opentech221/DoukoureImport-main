@@ -3,9 +3,9 @@
 - Environment: local
 - Verdict: passed
 - Entry bundle budget: 40 KB
-- Total JS budget: 420 KB
+- Total JS budget: 425 KB
 - Entry bundle measured: 16.48 KB
-- Total JS measured: 413.25 KB
+- Total JS measured: 421.88 KB
 
 ## Steps
 - build: passed

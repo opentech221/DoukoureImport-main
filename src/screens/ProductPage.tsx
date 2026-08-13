@@ -15,6 +15,12 @@ import MediaRichCarousel, {
   type MediaItem,
 } from "../components/MediaRichCarousel";
 import ProductStickyActions from "../components/ProductStickyActions";
+import GroupBuyPanel from "../components/GroupBuyPanel";
+import PricingTiers from "../components/PricingTiers";
+import TradeAssurance from "../components/TradeAssurance";
+import AudioWhatsAppFab from "../components/AudioWhatsAppFab";
+import SkuSelectorSheet from "../components/SkuSelectorSheet";
+import ProductSkeleton from "../components/ProductSkeleton";
 import { DEFAULT_RATES, formatXOF } from "../utils/pricingEngine";
 import { getPostgrestClient } from "../lib/getPostgrestClient";
 import type { CartItem } from "../components/product/CartSheet";
@@ -45,10 +51,18 @@ const DEMO_VIDEO_URL =
 
 const MEDIA: MediaItem[] = [
   {
+    type: "VIDEO",
+    url: DEMO_VIDEO_URL,
+    thumbnail: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=120&h=120&fit=crop&auto=format",
+    alt: "Vidéo courte Nike Air Max 2024",
+    duration: "5s",
+    autoplay: true,
+    loop: true,
+  },
+  {
     type: "IMAGE",
     url: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=640&h=640&fit=crop&auto=format",
-    thumbnail:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=120&h=120&fit=crop&auto=format",
+    thumbnail: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=120&h=120&fit=crop&auto=format",
     alt: "Nike Air Max 2024 vue principale",
   },
   {
@@ -57,14 +71,6 @@ const MEDIA: MediaItem[] = [
     thumbnail:
       "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=120&h=120&fit=crop&auto=format",
     alt: "Nike Air Max 2024 vue latérale",
-  },
-  {
-    type: "VIDEO",
-    url: DEMO_VIDEO_URL,
-    thumbnail:
-      "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=120&h=120&fit=crop&auto=format",
-    alt: "Vidéo présentation 360°",
-    duration: "24s",
   },
   {
     type: "IMAGE",
@@ -90,7 +96,7 @@ interface Props {
 
 export default function ProductPage({ onNavigate, productId }: Props) {
   const [product, setProduct] = useState(FALLBACK_PRODUCT);
-  const [loadingProduct, setLoadingProduct] = useState(false);
+  const [loadingProduct, setLoadingProduct] = useState(productId !== null && productId !== undefined);
   const [productLoadError, setProductLoadError] = useState<string | null>(null);
   const [liked, setLiked] = useState(false);
   const [selection, setSelection] = useState<ShippingSelectionPayload | null>(
@@ -98,10 +104,15 @@ export default function ProductPage({ onNavigate, productId }: Props) {
   );
   const [cartOpen, setCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [skuOpen, setSkuOpen] = useState(false);
+  const [sku, setSku] = useState({ size: '42', color: 'Noir', quantity: 1 });
 
   const depositAmount = selection?.pricing.depositAmount ?? 0;
   const balanceAmount = selection?.pricing.estimatedBalance ?? 0;
   const shippingOption = selection?.option ?? "AIR_EXPRESS";
+  const groupPrice = Math.round((selection?.pricing.totalPrice ?? product.basePriceXOF) * 0.92);
+  const soloPrice = selection?.pricing.totalPrice ?? product.basePriceXOF;
+  const skuAdjustment = sku.color === 'Rouge' ? 1500 : sku.color === 'Blanc' ? 500 : 0;
 
   useEffect(() => {
     async function loadProduct() {
@@ -182,7 +193,7 @@ export default function ProductPage({ onNavigate, productId }: Props) {
     return [
       {
         ...MEDIA[0],
-        url: product.imageUrl,
+        url: MEDIA[0].url,
         thumbnail: product.imageUrl,
         alt: `${product.name} vue principale`,
       },
@@ -191,7 +202,7 @@ export default function ProductPage({ onNavigate, productId }: Props) {
   }, [product.imageUrl, product.name]);
 
   function handleShare() {
-    const text = `${product.name} — disponible sur Doukoure Import à partir de ${formatXOF(product.basePriceXOF)} FCFA. ${product.shareUrl}`;
+    const text = `Je veux commander ${product.name} sur Doukoure Import. Clique ici pour l'acheter avec moi et débloquer le prix de gros : ${product.shareUrl}`;
     if (navigator.share) {
       navigator.share({ title: product.name, text, url: product.shareUrl }).catch(() => {});
     } else {
@@ -290,9 +301,11 @@ export default function ProductPage({ onNavigate, productId }: Props) {
           <div className="lg:flex lg:items-start lg:gap-8">
             <section className="lg:w-3/5">
               {/* ── Carrousel Média ── */}
-              <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
-                <MediaRichCarousel mediaList={mediaList} aspectRatio={0.82} />
-              </div>
+              {loadingProduct ? <ProductSkeleton /> : (
+                <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
+                  <MediaRichCarousel mediaList={mediaList} aspectRatio={0.82} />
+                </div>
+              )}
 
               {/* ── Infos produit ── */}
               <div className="border-b border-slate-100 bg-white px-4 pb-3 pt-4 lg:rounded-b-2xl lg:px-6 lg:pb-6">
@@ -368,6 +381,9 @@ export default function ProductPage({ onNavigate, productId }: Props) {
             </p>
           </div>
               </div>
+              <GroupBuyPanel soloPriceXOF={soloPrice} groupPriceXOF={groupPrice} onShare={handleShare} />
+              <PricingTiers quantity={sku.quantity} unitPriceXOF={soloPrice + skuAdjustment} />
+              <TradeAssurance />
             </section>
 
             <aside className="mt-5 lg:sticky lg:top-24 lg:mt-0 lg:w-2/5">
@@ -381,6 +397,10 @@ export default function ProductPage({ onNavigate, productId }: Props) {
                   defaultOption="AIR_EXPRESS"
                   onSelectionChange={setSelection}
                 />
+                <button type="button" onClick={() => setSkuOpen(true)} className="mt-4 w-full rounded-xl border border-border bg-surface-muted px-4 py-3 text-left text-sm font-bold text-text">
+                  Taille {sku.size} · {sku.color} · {sku.quantity} pièce{sku.quantity > 1 ? 's' : ''}
+                  <span className="float-right text-xs font-semibold text-primary">Modifier</span>
+                </button>
 
                 <div className="hidden lg:block">
                   <ProductStickyActions
@@ -431,6 +451,18 @@ export default function ProductPage({ onNavigate, productId }: Props) {
           />
         </Suspense>
       )}
+      <SkuSelectorSheet
+        open={skuOpen}
+        productName={product.name}
+        imageUrl={product.imageUrl}
+        size={sku.size}
+        color={sku.color}
+        quantity={sku.quantity}
+        priceAdjustmentXOF={skuAdjustment}
+        onClose={() => setSkuOpen(false)}
+        onChange={setSku}
+      />
+      <AudioWhatsAppFab />
     </>
   );
 }

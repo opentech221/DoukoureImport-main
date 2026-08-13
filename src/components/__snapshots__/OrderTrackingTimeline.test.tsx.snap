@@ -479,7 +479,7 @@ exports[`OrderTrackingTimeline > conserve la structure visuelle du suivi avec in
             >
               <svg
                 aria-hidden="true"
-                class="lucide lucide-truck"
+                class="lucide lucide-truck animate-pulse-fomo"
                 fill="none"
                 height="14"
                 stroke="currentColor"

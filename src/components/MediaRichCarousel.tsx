@@ -30,6 +30,8 @@ export interface MediaItem {
   thumbnail?: string
   alt?:       string
   duration?:  string
+  autoplay?: boolean
+  loop?: boolean
 }
 
 interface Props {
@@ -92,7 +94,8 @@ function VideoPlayer({ item }: { item: MediaItem }) {
           src={item.url}
           muted={muted}
           playsInline
-          loop={false}
+          autoPlay={item.autoplay}
+          loop={item.loop ?? false}
           className="absolute inset-0 w-full h-full object-contain"
           onTimeUpdate={handleTimeUpdate}
           onEnded={handleEnded}

@@ -444,6 +444,7 @@ export default function OrderTrackingTimeline({ orderStatus, inspectionData }: P
                     }}>
                     <Icon
                       size={14}
+                      className={active ? 'animate-pulse-fomo' : undefined}
                       style={{
                         color: done   ? '#059669'
                              : active ? '#1E1B4B'
