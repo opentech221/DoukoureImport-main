@@ -132,15 +132,13 @@ function statusIndex(s: OrderStatus) {
 function Modal({ onClose, children }: { onClose: () => void; children: React.ReactNode }) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: 'rgba(0,0,0,0.88)' }}
+      className="di-modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={onClose}>
       <div onClick={e => e.stopPropagation()} className="relative w-full max-w-sm">
         {children}
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center shadow-lg"
-          style={{ background: 'rgba(0,0,0,0.55)' }}
+          className="di-modal-close absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full shadow-lg"
           aria-label="Fermer">
           <X size={16} className="text-white" />
         </button>
@@ -158,7 +156,7 @@ function PhotoModal({ url, onClose }: { url: string; onClose: () => void }) {
     <Modal onClose={onClose}>
       <div className="rounded-2xl overflow-hidden">
         <img src={url} alt="Photo inspection Chine" className="w-full block" />
-        <div className="px-4 py-3" style={{ background: '#1E1B4B' }}>
+        <div className="bg-primary px-4 py-3">
           <p className="text-white text-xs font-semibold flex items-center gap-1.5">
             <Camera size={12} /> Photo d'inspection — Entrepôt Guangzhou
           </p>
@@ -178,7 +176,7 @@ function VideoModal({ data, onClose }: { data: InspectionData; onClose: () => vo
 
   return (
     <Modal onClose={onClose}>
-      <div className="rounded-2xl overflow-hidden" style={{ background: '#0F172A' }}>
+      <div className="di-video-surface overflow-hidden rounded-2xl">
         {/* Zone vidéo */}
         <div className="relative" style={{ paddingBottom: '62%' }}>
           {data.videoUrl && playing ? (
@@ -202,8 +200,8 @@ function VideoModal({ data, onClose }: { data: InspectionData; onClose: () => vo
                 aria-label="Lancer la vidéo">
                 <div
                   className="w-16 h-16 rounded-full flex items-center justify-center shadow-2xl"
-                  style={{ background: 'rgba(255,255,255,0.92)' }}>
-                  <PlayCircle size={34} style={{ color: '#1E1B4B' }} />
+                  className="di-video-play flex h-16 w-16 items-center justify-center rounded-full shadow-2xl">
+                  <PlayCircle size={34} />
                 </div>
                 <span className="text-white text-sm font-bold tracking-wide">
                   Regarder la vidéo d'inspection 360°
@@ -212,7 +210,7 @@ function VideoModal({ data, onClose }: { data: InspectionData; onClose: () => vo
               {/* Badge durée */}
               <div
                 className="absolute bottom-3 right-3 px-2 py-1 rounded-lg text-xs font-bold text-white"
-                style={{ background: 'rgba(0,0,0,0.65)' }}>
+                className="di-video-badge absolute bottom-3 right-3 rounded-lg px-2 py-1 text-xs font-bold text-white">
                 360°
               </div>
             </>
@@ -247,69 +245,51 @@ function InspectionCard({ data }: { data: InspectionData }) {
 
   return (
     <>
-      <div
-        className="rounded-2xl overflow-hidden border"
-        style={{ background: '#FFFBEB', borderColor: '#FDE68A' }}>
+      <div className="di-inspection-card overflow-hidden rounded-2xl border">
 
         {/* En-tête */}
-        <div
-          className="px-4 py-3 flex items-center gap-2 border-b"
-          style={{ borderColor: '#FDE68A' }}>
-          <AlertCircle size={15} style={{ color: '#D97706' }} />
+        <div className="di-inspection-heading flex items-center gap-2 border-b px-4 py-3">
+          <AlertCircle size={15} className="text-amber" />
           <div className="flex-1">
-            <p className="font-bold text-sm" style={{ color: '#92400E' }}>
+            <p className="text-sm font-bold">
               Inspection & Pesée — Entrepôt Chine
             </p>
-            <p className="text-xs" style={{ color: '#B45309' }}>
+            <p className="di-inspection-muted text-xs">
               {data.warehouseLocation ?? 'Guangzhou'} · {data.inspectedAt ?? '29 jan 2024'}
             </p>
           </div>
-          <CheckCircle size={16} style={{ color: '#D97706' }} />
+          <CheckCircle size={16} className="text-amber" />
         </div>
 
         {/* Comparatif poids */}
-        <div className="px-4 py-4 border-b" style={{ borderColor: '#FEF3C7' }}>
+        <div className="di-inspection-panel-border border-b px-4 py-4">
           <div className="flex items-center gap-3">
             {/* Estimé */}
-            <div
-              className="flex-1 rounded-xl p-3 text-center border"
-              style={{ background: 'white', borderColor: '#E2E8F0' }}>
+            <div className="flex-1 rounded-xl border border-border bg-card p-3 text-center">
               <p className="text-xs text-slate-400 mb-1">Poids estimé</p>
-              <p className="font-black text-lg font-mono" style={{ color: '#1E1B4B' }}>
+              <p className="text-lg font-black font-mono text-text">
                 {data.estimatedWeightKg} kg
               </p>
             </div>
 
             {/* Flèche + delta */}
-            <div className="flex flex-col items-center gap-1 flex-shrink-0">
-              <Scale size={18} style={{ color: '#D97706' }} />
-              <span
-                className="text-xs font-bold font-mono px-2 py-0.5 rounded-full"
-                style={{
-                  background: isHeavier ? '#FEF2F2' : '#F0FDF4',
-                  color: isHeavier ? '#DC2626' : '#059669',
-                }}>
+            <div className="flex shrink-0 flex-col items-center gap-1">
+              <Scale size={18} className="text-amber" />
+              <span className={`rounded-full px-2 py-0.5 text-xs font-bold font-mono ${isHeavier ? 'bg-danger-soft text-danger' : 'bg-success-soft text-success'}`}>
                 {diffLabel}
               </span>
             </div>
 
             {/* Réel */}
-            <div
-              className="flex-1 rounded-xl p-3 text-center border"
-              style={{
-                background: isHeavier ? '#FEF2F2' : '#F0FDF4',
-                borderColor: isHeavier ? '#FECACA' : '#A7F3D0',
-              }}>
+            <div className={`flex-1 rounded-xl border p-3 text-center ${isHeavier ? 'border-red-200 bg-danger-soft' : 'border-emerald-200 bg-success-soft'}`}>
               <p className="text-xs text-slate-400 mb-1">Poids réel</p>
-              <p
-                className="font-black text-lg font-mono"
-                style={{ color: isHeavier ? '#DC2626' : '#059669' }}>
+              <p className={`text-lg font-black font-mono ${isHeavier ? 'text-danger' : 'text-success'}`}>
                 {data.actualWeightKg} kg
               </p>
             </div>
           </div>
 
-          <p className="text-xs text-center mt-2.5" style={{ color: '#92400E' }}>
+          <p className="mt-2.5 text-center text-xs text-amber-900">
             {isHeavier
               ? `Colis plus lourd — surcoût de transport répercuté sur le solde`
               : weightDiff < 0
@@ -430,25 +410,20 @@ export default function OrderTrackingTimeline({ orderStatus, inspectionData }: P
   const activeStep = currentIdx
 
   return (
-    <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div>
 
       {/* ── Timeline ── */}
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+      <div className="di-timeline-shell">
         <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
-          <h2 className="font-bold text-sm" style={{ color: '#1E1B4B' }}>
+          <h2 className="text-sm font-bold text-text">
             Progression de la commande
           </h2>
-          <span
-            className="text-xs font-bold px-2.5 py-1 rounded-full"
-            style={{
-              background: orderStatus === 'DELIVERED' ? '#F0FDF4' : '#EEF2FF',
-              color: orderStatus === 'DELIVERED' ? '#059669' : '#4338CA',
-            }}>
+          <span className={`rounded-full px-2.5 py-1 text-xs font-bold ${orderStatus === 'DELIVERED' ? 'bg-success-soft text-success' : 'bg-primary-soft text-primary-hover'}`}>
             Étape {Math.min(activeStep + 1, STEP_DEFS.length)} / {STEP_DEFS.length}
           </span>
         </div>
 
-        <div className="px-4 py-4">
+        <div className="grid gap-3 px-4 py-4 lg:grid-cols-7 lg:gap-2">
           {STEP_DEFS.map((step, i) => {
             const done   = i < activeStep
             const active = i === activeStep
@@ -456,9 +431,9 @@ export default function OrderTrackingTimeline({ orderStatus, inspectionData }: P
             const isLast = i === STEP_DEFS.length - 1
 
             return (
-              <div key={step.status} className="flex gap-3">
+              <div key={step.status} className="flex gap-3 lg:flex-col lg:gap-0">
                 {/* Indicateur vertical */}
-                <div className="flex flex-col items-center flex-shrink-0">
+                <div className="flex shrink-0 flex-col items-center lg:w-full lg:flex-row">
                   <div
                     className="w-8 h-8 rounded-full flex items-center justify-center"
                     style={{
@@ -479,7 +454,7 @@ export default function OrderTrackingTimeline({ orderStatus, inspectionData }: P
                   </div>
                   {!isLast && (
                     <div
-                      className="w-0.5 rounded-full my-1"
+                      className="my-1 w-0.5 rounded-full lg:mx-1 lg:my-0 lg:h-0.5 lg:w-auto"
                       style={{
                         flex: 1,
                         minHeight: 20,
@@ -490,7 +465,7 @@ export default function OrderTrackingTimeline({ orderStatus, inspectionData }: P
                 </div>
 
                 {/* Contenu étape */}
-                <div className={`flex-1 ${isLast ? '' : 'pb-4'}`}>
+                <div className={`flex-1 lg:pt-3 ${isLast ? '' : 'pb-4 lg:pb-0'}`}>
                   <div className="flex items-center justify-between gap-2">
                     <span
                       className="font-semibold text-sm leading-tight"
@@ -545,14 +520,13 @@ export default function OrderTrackingTimeline({ orderStatus, inspectionData }: P
       {/* ── Bandeau solde si pas encore livré et inspection disponible ── */}
       {showInspection && inspectionData && orderStatus !== 'DELIVERED' && (
         <div
-          className="mt-3 rounded-2xl px-4 py-3 flex items-center gap-3 border"
-          style={{ background: '#F0FDF4', borderColor: '#A7F3D0' }}>
-          <CheckCircle size={18} style={{ color: '#059669', flexShrink: 0 }} />
+          className="di-balance-banner mt-3 flex items-center gap-3 rounded-2xl border px-4 py-3">
+          <CheckCircle size={18} className="shrink-0 text-success" />
           <div className="flex-1">
-            <p className="text-xs font-semibold" style={{ color: '#065F46' }}>
+            <p className="text-xs font-semibold text-emerald-800">
               Solde final à régler à la livraison
             </p>
-            <p className="font-black text-base font-mono" style={{ color: '#059669' }}>
+            <p className="text-base font-black font-mono text-success">
               {formatXOF(inspectionData.adjustedBalanceXOF)}
             </p>
           </div>
@@ -563,9 +537,8 @@ export default function OrderTrackingTimeline({ orderStatus, inspectionData }: P
       {/* ── Bannière livraison confirmée ── */}
       {orderStatus === 'DELIVERED' && (
         <div
-          className="mt-3 rounded-2xl px-4 py-4 flex items-center gap-3"
-          style={{ background: 'linear-gradient(135deg, #059669, #10B981)' }}>
-          <CheckCircle size={28} className="text-white flex-shrink-0" />
+          className="di-delivered-banner mt-3 flex items-center gap-3 rounded-2xl px-4 py-4">
+          <CheckCircle size={28} className="shrink-0 text-white" />
           <div>
             <p className="text-white font-black text-base">Colis livré avec succès !</p>
             <p className="text-emerald-100 text-xs mt-0.5">

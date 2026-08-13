@@ -4,8 +4,8 @@
   "budgets": {
     "entryBudgetKb": 40,
     "totalBudgetKb": 420,
-    "measuredEntryKb": 13.08,
-    "measuredTotalKb": 399.48
+    "measuredEntryKb": 15.94,
+    "measuredTotalKb": 402.96
   },
   "failedSteps": []
 }

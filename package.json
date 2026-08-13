@@ -9,6 +9,7 @@
     "build:analyze": "vite build --mode analyze",
     "preview": "vite preview",
     "format": "oxfmt",
+    "qa:design-system": "node scripts/design-system-gate.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "qa:gates": "node scripts/quality-gates.mjs"

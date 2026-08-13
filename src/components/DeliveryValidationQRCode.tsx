@@ -144,11 +144,7 @@ function OfflineBadge() {
 
   return (
     <div
-      className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
-      style={{
-        background: online ? '#F0FDF4' : '#FEF2F2',
-        color: online ? '#059669' : '#DC2626',
-      }}>
+      className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${online ? 'di-status-online' : 'di-status-offline'}`}>
       {online ? <Wifi size={10} /> : <WifiOff size={10} />}
       {online ? 'En ligne' : 'Hors-ligne — QR disponible'}
     </div>
@@ -172,15 +168,11 @@ function CopyOrderId({ orderId }: { orderId: string }) {
     <button
       type="button"
       onClick={handleCopy}
-      className="flex items-center gap-2 px-3 py-2 rounded-xl border border-dashed w-full justify-between transition-colors"
-      style={{
-        background: copied ? '#F0FDF4' : '#FAFAFA',
-        borderColor: copied ? '#A7F3D0' : '#E2E8F0',
-      }}>
-      <span className="text-xs font-mono font-semibold" style={{ color: '#1E1B4B' }}>
+      className={`flex w-full items-center justify-between gap-2 rounded-xl border border-dashed px-3 py-2 transition-colors ${copied ? 'di-order-id-copied' : 'di-order-id'}`}>
+      <span className="text-xs font-mono font-semibold text-text">
         {orderId}
       </span>
-      <div className="flex items-center gap-1 text-xs" style={{ color: copied ? '#059669' : '#94A3B8' }}>
+      <div className={`flex items-center gap-1 text-xs ${copied ? 'text-success' : 'text-text-subtle'}`}>
         {copied ? <Check size={12} /> : <Copy size={12} />}
         {copied ? 'Copié !' : 'Copier'}
       </div>
@@ -255,15 +247,12 @@ function UnpaidView({
             type="button"
             onClick={handleRefresh}
             className="w-7 h-7 rounded-full flex items-center justify-center border border-slate-200"
-            style={{ background: '#FAFAFA' }}
+            className="border border-border bg-surface-muted"
             aria-label="Actualiser le QR code">
             <RefreshCw
               size={12}
-              style={{
-                color: '#64748B',
-                transition: 'transform 0.5s',
-                transform: refreshed ? 'rotate(360deg)' : 'rotate(0deg)',
-              }}
+              className="text-text-muted transition-transform duration-500"
+              style={{ transform: refreshed ? 'rotate(360deg)' : 'rotate(0deg)' }}
             />
           </button>
         </div>
@@ -271,7 +260,7 @@ function UnpaidView({
         {/* Frame QR */}
         <div
           className="rounded-3xl p-4 shadow-inner border"
-          style={{ background: 'white', borderColor: '#E2E8F0' }}>
+          className="rounded-3xl border border-border bg-card p-4 shadow-inner">
           <div className="relative">
             <QRCodeSVG payload={qrPayload} size={190} />
             {/* Logo centré */}
@@ -279,7 +268,7 @@ function UnpaidView({
               className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div
                 className="w-10 h-10 rounded-xl flex items-center justify-center shadow-sm border-2 border-white"
-                style={{ background: '#1E1B4B' }}>
+                className="flex h-10 w-10 items-center justify-center rounded-xl border-2 border-white bg-primary shadow-sm">
                 <Shield size={16} className="text-white" />
               </div>
             </div>
@@ -288,13 +277,13 @@ function UnpaidView({
 
         {/* Montant mis en avant */}
         <div className="text-center">
-          <p className="text-xs text-slate-400 mb-0.5">Solde à régler à la livraison</p>
-          <p className="font-black text-3xl font-mono" style={{ color: '#1E1B4B' }}>
+          <p className="mb-0.5 text-xs text-text-subtle">Solde à régler à la livraison</p>
+          <p className="text-3xl font-black font-mono text-text">
             {formatXOF(remainingBalanceAmount)}
           </p>
           <div className="flex items-center justify-center gap-1.5 mt-1.5">
-            <Clock size={11} style={{ color: '#D97706' }} />
-            <span className="text-xs font-semibold" style={{ color: '#D97706' }}>
+            <Clock size={11} className="text-amber" />
+            <span className="text-xs font-semibold text-amber">
               Expire le {expiresAt}
             </span>
           </div>
@@ -304,8 +293,8 @@ function UnpaidView({
       {/* ── Instructions ── */}
       <div
         className="rounded-2xl p-4 border"
-        style={{ background: '#EEF2FF', borderColor: '#C7D2FE' }}>
-        <p className="font-bold text-sm mb-2.5" style={{ color: '#1E1B4B' }}>
+        className="di-instruction-panel rounded-2xl border p-4">
+        <p className="mb-2.5 text-sm font-bold text-text">
           📱 Instructions pour la livraison
         </p>
         <ol className="space-y-2">
@@ -314,10 +303,11 @@ function UnpaidView({
             `Payez le solde de ${formatXOF(remainingBalanceAmount)} en espèces ou Mobile Money`,
             'Le livreur scanne le code pour valider et libérer le colis',
           ].map((step, i) => (
-            <li key={i} className="flex items-start gap-2.5 text-xs" style={{ color: '#3730A3' }}>
+            <li key={i} className="flex items-start gap-2.5 text-xs text-indigo-800">
               <span
                 className="w-5 h-5 rounded-full flex items-center justify-center font-black text-white shrink-0 mt-0.5"
-                style={{ background: '#4338CA', fontSize: 10 }}>
+                className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-indigo-700 font-black text-white"
+                style={{ fontSize: 10 }}>
                 {i + 1}
               </span>
               {step}
@@ -334,8 +324,7 @@ function UnpaidView({
         <button
           type="button"
           onClick={onPaymentInitiated}
-          className="w-full flex items-center justify-center gap-2.5 py-4 rounded-2xl font-extrabold text-white text-sm shadow-lg transition-transform active:scale-95"
-          style={{ background: 'linear-gradient(135deg, #059669 0%, #10B981 100%)' }}>
+          className="di-payment-button flex w-full items-center justify-center gap-2.5 rounded-2xl py-4 text-sm font-extrabold shadow-lg transition-transform active:scale-95">
           <Smartphone size={16} />
           Payer le solde via Wave / Orange Money
         </button>
@@ -343,8 +332,7 @@ function UnpaidView({
         <button
           type="button"
           onClick={handleQueueValidation}
-          className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl border text-sm font-bold transition-transform active:scale-95"
-          style={{ borderColor: '#CBD5E1', color: '#1E1B4B', background: '#F8FAFC' }}>
+          className="di-secondary-button flex w-full items-center justify-center gap-2 rounded-2xl border py-3 text-sm font-bold transition-transform active:scale-95">
           <Clock size={15} /> Enregistrer une validation différée
         </button>
 
@@ -352,28 +340,28 @@ function UnpaidView({
           {/* Wave */}
           <div
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold"
-            style={{ background: '#EFF6FF', color: '#1D4ED8' }}>
+            className="rounded-xl bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-700">
             <span className="text-base">〜</span> Wave
           </div>
           {/* Orange Money */}
           <div
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold"
-            style={{ background: '#FFF7ED', color: '#C2410C' }}>
+            className="rounded-xl bg-orange-50 px-3 py-1.5 text-xs font-bold text-orange-700">
             <span className="text-base">◉</span> Orange Money
           </div>
           {/* Espèces */}
           <div
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold"
-            style={{ background: '#F0FDF4', color: '#15803D' }}>
+            className="rounded-xl bg-green-50 px-3 py-1.5 text-xs font-bold text-green-700">
             <span className="text-base">💵</span> Espèces
           </div>
         </div>
 
-        <p className="text-center text-xs text-slate-400">
+        <p className="text-center text-xs text-text-subtle">
           Paiement sécurisé · Disponible hors-ligne · {customerPhone}
         </p>
         {syncMessage && (
-          <p className="text-center text-xs font-semibold" style={{ color: orderStatus === 'DELIVERED' ? '#059669' : '#4338CA' }}>
+          <p className={`text-center text-xs font-semibold ${orderStatus === 'DELIVERED' ? 'di-sync-message-success' : 'di-sync-message'}`}>
             {syncMessage}
           </p>
         )}
@@ -420,16 +408,15 @@ function PaidView({
     <div className="flex flex-col items-center py-10 px-4 gap-5">
       {/* Cercle check animé */}
       <div
-        className="w-24 h-24 rounded-full flex items-center justify-center shadow-xl"
-        style={{ background: 'linear-gradient(135deg, #059669 0%, #10B981 100%)' }}>
+        className="di-paid-mark flex h-24 w-24 items-center justify-center rounded-full shadow-xl">
         <CheckCircle size={48} className="text-white" strokeWidth={2.5} />
       </div>
 
       <div className="text-center space-y-1">
-        <p className="font-black text-xl" style={{ color: '#059669' }}>
+        <p className="text-xl font-black text-success">
           Solde réglé !
         </p>
-        <p className="font-bold text-base" style={{ color: '#1E1B4B' }}>
+        <p className="text-base font-bold text-text">
           Colis prêt à être remis
         </p>
         <p className="text-sm text-slate-500 mt-1">
@@ -440,14 +427,14 @@ function PaidView({
       {/* Récap paiement */}
       <div
         className="w-full rounded-2xl p-4 space-y-2 border"
-        style={{ background: '#F0FDF4', borderColor: '#A7F3D0' }}>
+        className="di-paid-panel w-full space-y-2 rounded-2xl border p-4">
         <div className="flex justify-between items-center">
           <span className="text-xs text-slate-500">Commande</span>
-          <span className="text-xs font-mono font-bold" style={{ color: '#1E1B4B' }}>{orderId}</span>
+          <span className="text-xs font-bold font-mono text-text">{orderId}</span>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-xs text-slate-500">Solde encaissé</span>
-          <span className="text-sm font-black font-mono" style={{ color: '#059669' }}>
+          <span className="text-sm font-black font-mono text-success">
             {formatXOF(remainingBalanceAmount)}
           </span>
         </div>
@@ -455,7 +442,7 @@ function PaidView({
           <span className="text-xs text-slate-500">Statut</span>
           <span
             className="text-xs font-bold px-2 py-0.5 rounded-full"
-            style={{ background: '#059669', color: 'white' }}>
+            className="rounded-full bg-success px-2 py-0.5 text-xs font-bold text-white">
             ✓ Validé
           </span>
         </div>
@@ -464,18 +451,17 @@ function PaidView({
       <button
         type="button"
         onClick={handleDeliveryValidation}
-        className="w-full py-3 rounded-2xl border font-bold text-sm"
-        style={{ borderColor: '#A7F3D0', color: '#047857', background: '#ECFDF5' }}>
+        className="di-paid-button w-full rounded-2xl border py-3 text-sm font-bold">
         Synchroniser la remise du colis
       </button>
 
       {syncMessage && (
-        <p className="text-center text-xs font-semibold" style={{ color: '#047857' }}>
+        <p className="text-center text-xs font-semibold text-emerald-700">
           {syncMessage}
         </p>
       )}
 
-      <p className="text-center text-xs text-slate-400">
+      <p className="text-center text-xs text-text-subtle">
         Merci d'avoir commandé sur Doukoure Import 🇸🇳
       </p>
     </div>
@@ -526,21 +512,18 @@ export default function DeliveryValidationQRCode({
 
   return (
     <div
-      className="rounded-2xl overflow-hidden border border-slate-100 bg-white shadow-sm"
-      style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      className="di-pass-shell">
 
       {/* ── En-tête ── */}
       <div
-        className="px-4 py-3 border-b border-slate-100 flex items-center justify-between"
-        style={{ background: '#FAFAFA' }}>
+        className="di-pass-header flex items-center justify-between border-b px-4 py-3">
         <div className="flex items-center gap-2">
           <div
-            className="w-8 h-8 rounded-xl flex items-center justify-center"
-            style={{ background: isBalancePaid ? '#F0FDF4' : '#EEF2FF' }}>
-            <Shield size={15} style={{ color: isBalancePaid ? '#059669' : '#4338CA' }} />
+            className={`flex h-8 w-8 items-center justify-center rounded-xl ${isBalancePaid ? 'di-pass-icon-paid' : 'di-pass-icon'}`}>
+            <Shield size={15} />
           </div>
           <div>
-            <p className="font-bold text-sm" style={{ color: '#1E1B4B' }}>
+            <p className="text-sm font-bold text-text">
               {isBalancePaid ? 'Solde réglé — Colis libéré' : 'QR Code de Validation Livreur'}
             </p>
             <p className="text-xs text-slate-400">

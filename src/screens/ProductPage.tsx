@@ -286,13 +286,16 @@ export default function ProductPage({ onNavigate, productId }: Props) {
           </button>
         </div>
 
-        {/* ── Carrousel Média ── */}
-        <div className="bg-white">
-          <MediaRichCarousel mediaList={mediaList} aspectRatio={0.82} />
-        </div>
+        <main className="mx-auto max-w-7xl px-4 py-4 md:px-8 lg:py-8">
+          <div className="lg:flex lg:items-start lg:gap-8">
+            <section className="lg:w-3/5">
+              {/* ── Carrousel Média ── */}
+              <div className="overflow-hidden rounded-2xl bg-white shadow-sm">
+                <MediaRichCarousel mediaList={mediaList} aspectRatio={0.82} />
+              </div>
 
-        {/* ── Infos produit ── */}
-        <div className="px-4 pt-4 pb-3 bg-white border-b border-slate-100">
+              {/* ── Infos produit ── */}
+              <div className="border-b border-slate-100 bg-white px-4 pb-3 pt-4 lg:rounded-b-2xl lg:px-6 lg:pb-6">
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1">
               <h1
@@ -364,36 +367,57 @@ export default function ProductPage({ onNavigate, productId }: Props) {
               notifié par WhatsApp.
             </p>
           </div>
-        </div>
+              </div>
+            </section>
 
-        {/* ── ShippingOptionSelector ── */}
-        <div className="px-4 pt-5 pb-4 bg-white border-b border-slate-100">
-          <ShippingOptionSelector
-            basePriceXOF={product.basePriceXOF}
-            estimatedWeight={product.estimatedWeight}
-            dimensions={product.dimensions}
-            rates={DEFAULT_RATES}
-            defaultOption="AIR_EXPRESS"
-            onSelectionChange={setSelection}
-          />
-        </div>
+            <aside className="mt-5 lg:sticky lg:top-24 lg:mt-0 lg:w-2/5">
+              {/* ── ShippingOptionSelector ── */}
+              <div className="border-b border-slate-100 bg-white px-4 pb-4 pt-5 lg:rounded-2xl lg:border lg:p-6 lg:shadow-sm">
+                <ShippingOptionSelector
+                  basePriceXOF={product.basePriceXOF}
+                  estimatedWeight={product.estimatedWeight}
+                  dimensions={product.dimensions}
+                  rates={DEFAULT_RATES}
+                  defaultOption="AIR_EXPRESS"
+                  onSelectionChange={setSelection}
+                />
 
-        {/* Espace pour la barre sticky */}
-        <div className="h-36" />
+                <div className="hidden lg:block">
+                  <ProductStickyActions
+                    productName={product.name}
+                    productRef={product.ref}
+                    depositAmountXOF={depositAmount}
+                    selectedShippingOption={shippingOption}
+                    basePriceXOF={product.basePriceXOF}
+                    balanceXOF={balanceAmount}
+                    estimatedWeight={product.estimatedWeight}
+                    onAddToCart={handleAddToCart}
+                    onOrderCreated={handleOrderCreated}
+                  />
+                </div>
+              </div>
+            </aside>
+          </div>
+        </main>
+
+        {/* Espace pour la barre sticky mobile */}
+        <div className="h-36 lg:hidden" />
       </div>
 
       {/* ── CTA Sticky ── */}
-      <ProductStickyActions
-        productName={product.name}
-        productRef={product.ref}
-        depositAmountXOF={depositAmount}
-        selectedShippingOption={shippingOption}
-        basePriceXOF={product.basePriceXOF}
-        balanceXOF={balanceAmount}
-        estimatedWeight={product.estimatedWeight}
-        onAddToCart={handleAddToCart}
-        onOrderCreated={handleOrderCreated}
-      />
+      <div className="lg:hidden">
+        <ProductStickyActions
+          productName={product.name}
+          productRef={product.ref}
+          depositAmountXOF={depositAmount}
+          selectedShippingOption={shippingOption}
+          basePriceXOF={product.basePriceXOF}
+          balanceXOF={balanceAmount}
+          estimatedWeight={product.estimatedWeight}
+          onAddToCart={handleAddToCart}
+          onOrderCreated={handleOrderCreated}
+        />
+      </div>
 
       {/* ── Mini-panier ── */}
       {cartOpen && (

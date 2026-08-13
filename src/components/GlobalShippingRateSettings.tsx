@@ -83,13 +83,13 @@ interface RateInputProps {
 function RateInput({ label, value, onChange, suffix, hint, icon, changed }: RateInputProps) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="flex items-center gap-1.5 text-xs font-semibold" style={{ color: '#374151' }}>
+      <label className="di-field-label flex items-center gap-1.5 text-xs font-semibold">
         {icon}
         <span className="flex-1">{label}</span>
         {changed && (
           <span
-            className="text-xs font-bold px-2 py-0.5 rounded"
-            style={{ background: '#FEF3C7', color: '#D97706', whiteSpace: 'nowrap' }}>
+            className="rounded bg-amber-soft px-2 py-0.5 text-xs font-bold text-amber"
+            style={{ whiteSpace: 'nowrap' }}>
             modifié
           </span>
         )}
@@ -100,23 +100,19 @@ function RateInput({ label, value, onChange, suffix, hint, icon, changed }: Rate
           min={0}
           value={value}
           onChange={e => onChange(Number(e.target.value))}
-          className="w-full px-4 py-3 rounded-xl border text-sm font-mono font-semibold outline-none transition-colors"
+          className="di-field-input w-full rounded-xl border px-4 py-3 text-sm font-mono font-semibold outline-none transition-colors"
           style={{
-            color:       '#1E1B4B',
-            background:  '#FAFAFA',
             borderColor: changed ? '#FDE68A' : '#E2E8F0',
             paddingRight: `${suffix.length * 8 + 28}px`,
           }}
-          onFocus={e  => (e.target.style.borderColor = '#059669')}
-          onBlur={e   => (e.target.style.borderColor = changed ? '#FDE68A' : '#E2E8F0')}
         />
         <span
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium pointer-events-none"
-          style={{ color: '#94A3B8', whiteSpace: 'nowrap' }}>
+          className="di-field-hint absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-xs font-medium"
+          style={{ whiteSpace: 'nowrap' }}>
           {suffix}
         </span>
       </div>
-      <p className="text-xs" style={{ color: '#94A3B8' }}>{hint}</p>
+      <p className="di-field-hint text-xs">{hint}</p>
     </div>
   )
 }
@@ -133,15 +129,13 @@ function SaveToast({ visible }: { visible: boolean }) {
         transform:     visible ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(140px)',
         opacity:       visible ? 1 : 0,
         pointerEvents: visible ? 'auto' : 'none',
-        background:    '#F0FDF4',
-        borderColor:   '#A7F3D0',
       }}>
-      <CheckCircle size={20} style={{ color: '#059669', flexShrink: 0 }} />
+      <CheckCircle size={20} className="shrink-0 text-success" />
       <div className="min-w-0">
-        <p className="font-bold text-sm" style={{ color: '#065F46' }}>
+        <p className="font-bold text-sm text-emerald-800">
           Tarifs mis à jour !
         </p>
-        <p className="text-xs truncate" style={{ color: '#059669' }}>
+        <p className="truncate text-xs text-success">
           Tout le catalogue reflète ces nouveaux tarifs.
         </p>
       </div>
@@ -184,11 +178,11 @@ function ProductSimCard({
   const isUp    = delta > 0
 
   return (
-    <div className="px-4 py-4 border-b border-slate-100 last:border-0">
+    <div className="border-b border-border px-4 py-4 last:border-0">
 
       {/* Titre produit + badge mode */}
       <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-        <span className="font-bold text-sm flex items-center gap-1.5" style={{ color: '#1E1B4B' }}>
+        <span className="flex items-center gap-1.5 text-sm font-bold text-text">
           <span>{prod.emoji}</span>
           {prod.name}
         </span>
@@ -202,15 +196,15 @@ function ProductSimCard({
       {/* Ancien → Nouveau prix */}
       <div className="flex items-center gap-3 mb-3">
         {/* Ancien */}
-        <div className="flex-1 rounded-xl p-3 text-center" style={{ background: '#F8FAFC', border: '1px solid #E2E8F0' }}>
-          <p className="text-xs mb-1" style={{ color: '#94A3B8' }}>Ancien prix</p>
-          <p className="font-mono text-sm font-bold" style={{ color: '#64748B', textDecoration: changed ? 'line-through' : 'none' }}>
+        <div className="di-muted-surface flex-1 rounded-xl border border-border p-3 text-center">
+          <p className="mb-1 text-xs text-text-subtle">Ancien prix</p>
+          <p className="text-sm font-bold font-mono text-text-muted" style={{ textDecoration: changed ? 'line-through' : 'none' }}>
             {formatXOF(oldP.totalPrice)}
           </p>
         </div>
 
         {/* Delta */}
-        <div className="flex flex-col items-center gap-1 flex-shrink-0">
+        <div className="flex shrink-0 flex-col items-center gap-1">
           {changed ? (
             <>
               {isUp
@@ -232,12 +226,10 @@ function ProductSimCard({
 
         {/* Nouveau */}
         <div
-          className="flex-1 rounded-xl p-3 text-center"
+          className={`flex-1 rounded-xl border p-3 text-center ${changed ? (isUp ? 'di-soft-warning' : 'di-soft-success') : 'di-muted-surface border-border'}`}
           style={{
-            background:  changed ? (isUp ? '#FFFBEB' : '#F0FDF4') : '#F8FAFC',
-            border:      changed ? `1px solid ${isUp ? '#FDE68A' : '#A7F3D0'}` : '1px solid #E2E8F0',
           }}>
-          <p className="text-xs mb-1" style={{ color: '#94A3B8' }}>Nouveau prix</p>
+          <p className="mb-1 text-xs text-text-subtle">Nouveau prix</p>
           <p
             className="font-mono text-sm font-bold"
             style={{ color: changed ? (isUp ? '#D97706' : '#059669') : '#64748B' }}>

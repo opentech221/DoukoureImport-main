@@ -18,8 +18,7 @@ export default function ProfilePanel({ open, onClose, onNavigateTracking }: Prop
         style={{ background: "rgba(0,0,0,0.5)", backdropFilter: "blur(2px)" }}
         onClick={onClose}
       />
-      <div className="absolute bottom-0 left-0 right-0 max-w-md mx-auto bg-white shadow-2xl"
-        style={{ borderRadius: "24px 24px 0 0" }}>
+      <div className="absolute bottom-0 left-0 right-0 mx-auto max-h-[90vh] max-w-md overflow-y-auto rounded-t-3xl bg-white shadow-2xl lg:bottom-1/2 lg:max-w-lg lg:translate-y-1/2 lg:rounded-3xl">
         <div className="flex justify-center pt-3 pb-1">
           <div className="w-10 h-1 rounded-full bg-slate-200" />
         </div>

@@ -1,0 +1,780 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`GlobalShippingRateSettings > conserve la structure visuelle initiale des tarifs et de la simulation 1`] = `
+<div>
+  <div
+    class="grid grid-cols-1 lg:grid-cols-2 gap-6"
+  >
+    <div
+      class="flex flex-col gap-5"
+    >
+      <div
+        class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"
+      >
+        <div
+          class="px-5 py-4 border-b border-slate-100 flex items-center gap-2"
+        >
+          <svg
+            aria-hidden="true"
+            class="lucide lucide-trending-up"
+            fill="none"
+            height="15"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            style="color: rgb(5, 150, 105);"
+            viewBox="0 0 24 24"
+            width="15"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16 7h6v6"
+            />
+            <path
+              d="m22 7-8.5 8.5-5-5L2 17"
+            />
+          </svg>
+          <h2
+            class="font-bold text-sm"
+            style="color: rgb(30, 27, 75);"
+          >
+            Configuration des Tarifs Globaux
+          </h2>
+        </div>
+        <div
+          class="px-5 py-5 flex flex-col gap-6"
+        >
+          <div
+            class="flex flex-col gap-4 pb-5 border-b border-slate-100"
+          >
+            <p
+              class="text-xs font-bold uppercase tracking-widest"
+              style="color: rgb(148, 163, 184);"
+            >
+              Fret Aérien
+            </p>
+            <div
+              class="flex flex-col gap-1.5"
+            >
+              <label
+                class="di-field-label flex items-center gap-1.5 text-xs font-semibold"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-plane"
+                  fill="none"
+                  height="13"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  style="color: rgb(67, 56, 202);"
+                  viewBox="0 0 24 24"
+                  width="13"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"
+                  />
+                </svg>
+                <span
+                  class="flex-1"
+                >
+                  Aérien Express (5–7j)
+                </span>
+              </label>
+              <div
+                class="relative w-full"
+              >
+                <input
+                  class="di-field-input w-full rounded-xl border px-4 py-3 text-sm font-mono font-semibold outline-none transition-colors"
+                  min="0"
+                  style="border-color: rgb(226, 232, 240); padding-right: 100px;"
+                  type="number"
+                  value="11000"
+                />
+                <span
+                  class="di-field-hint absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-xs font-medium"
+                  style="white-space: nowrap;"
+                >
+                  FCFA / kg
+                </span>
+              </div>
+              <p
+                class="di-field-hint text-xs"
+              >
+                Priorité douane · Tracking temps réel
+              </p>
+            </div>
+            <div
+              class="flex flex-col gap-1.5"
+            >
+              <label
+                class="di-field-label flex items-center gap-1.5 text-xs font-semibold"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-plane"
+                  fill="none"
+                  height="13"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  style="color: rgb(5, 150, 105);"
+                  viewBox="0 0 24 24"
+                  width="13"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"
+                  />
+                </svg>
+                <span
+                  class="flex-1"
+                >
+                  Aérien Éco (10–15j)
+                </span>
+              </label>
+              <div
+                class="relative w-full"
+              >
+                <input
+                  class="di-field-input w-full rounded-xl border px-4 py-3 text-sm font-mono font-semibold outline-none transition-colors"
+                  min="0"
+                  style="border-color: rgb(226, 232, 240); padding-right: 100px;"
+                  type="number"
+                  value="7500"
+                />
+                <span
+                  class="di-field-hint absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-xs font-medium"
+                  style="white-space: nowrap;"
+                >
+                  FCFA / kg
+                </span>
+              </div>
+              <p
+                class="di-field-hint text-xs"
+              >
+                Recommandé PME · Assuré
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-col gap-4 pb-5 border-b border-slate-100"
+          >
+            <p
+              class="text-xs font-bold uppercase tracking-widest"
+              style="color: rgb(148, 163, 184);"
+            >
+              Fret Maritime
+            </p>
+            <div
+              class="flex flex-col gap-1.5"
+            >
+              <label
+                class="di-field-label flex items-center gap-1.5 text-xs font-semibold"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-ship"
+                  fill="none"
+                  height="13"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  style="color: rgb(217, 119, 6);"
+                  viewBox="0 0 24 24"
+                  width="13"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 10.189V14"
+                  />
+                  <path
+                    d="M12 2v3"
+                  />
+                  <path
+                    d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"
+                  />
+                  <path
+                    d="M19.38 20A11.6 11.6 0 0 0 21 14l-8.188-3.639a2 2 0 0 0-1.624 0L3 14a11.6 11.6 0 0 0 2.81 7.76"
+                  />
+                  <path
+                    d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1s1.2 1 2.5 1c2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"
+                  />
+                </svg>
+                <span
+                  class="flex-1"
+                >
+                  Maritime (~35j)
+                </span>
+              </label>
+              <div
+                class="relative w-full"
+              >
+                <input
+                  class="di-field-input w-full rounded-xl border px-4 py-3 text-sm font-mono font-semibold outline-none transition-colors"
+                  min="0"
+                  style="border-color: rgb(226, 232, 240); padding-right: 100px;"
+                  type="number"
+                  value="145000"
+                />
+                <span
+                  class="di-field-hint absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-xs font-medium"
+                  style="white-space: nowrap;"
+                >
+                  FCFA / m³
+                </span>
+              </div>
+              <p
+                class="di-field-hint text-xs"
+              >
+                Conteneur groupé · Idéal gros volumes
+              </p>
+            </div>
+          </div>
+          <div
+            class="flex flex-col gap-4"
+          >
+            <p
+              class="text-xs font-bold uppercase tracking-widest"
+              style="color: rgb(148, 163, 184);"
+            >
+              Marge Commerciale
+            </p>
+            <div
+              class="flex flex-col gap-1.5"
+            >
+              <label
+                class="di-field-label flex items-center gap-1.5 text-xs font-semibold"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="lucide lucide-percent"
+                  fill="none"
+                  height="13"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  style="color: rgb(124, 58, 237);"
+                  viewBox="0 0 24 24"
+                  width="13"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <line
+                    x1="19"
+                    x2="5"
+                    y1="5"
+                    y2="19"
+                  />
+                  <circle
+                    cx="6.5"
+                    cy="6.5"
+                    r="2.5"
+                  />
+                  <circle
+                    cx="17.5"
+                    cy="17.5"
+                    r="2.5"
+                  />
+                </svg>
+                <span
+                  class="flex-1"
+                >
+                  Marge globale
+                </span>
+              </label>
+              <div
+                class="relative w-full"
+              >
+                <input
+                  class="di-field-input w-full rounded-xl border px-4 py-3 text-sm font-mono font-semibold outline-none transition-colors"
+                  min="0"
+                  style="border-color: rgb(226, 232, 240); padding-right: 36px;"
+                  type="number"
+                  value="15"
+                />
+                <span
+                  class="di-field-hint absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-xs font-medium"
+                  style="white-space: nowrap;"
+                >
+                  %
+                </span>
+              </div>
+              <p
+                class="di-field-hint text-xs"
+              >
+                Appliquée sur (prix achat + fret) pour tous les produits
+              </p>
+            </div>
+          </div>
+          <button
+            class="w-full rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-all active:scale-95"
+            disabled=""
+            style="min-height: 52px; font-size: 15px; background: rgb(226, 232, 240); color: rgb(148, 163, 184); cursor: not-allowed;"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-save"
+              fill="none"
+              height="16"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"
+              />
+              <path
+                d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"
+              />
+              <path
+                d="M7 3v4a1 1 0 0 0 1 1h7"
+              />
+            </svg>
+             Enregistrer et appliquer à tout le catalogue
+          </button>
+        </div>
+      </div>
+      <div
+        class="rounded-2xl p-4 border"
+        style="background: rgb(238, 242, 255); border-color: rgb(199, 210, 254);"
+      >
+        <p
+          class="text-xs font-bold mb-1.5"
+          style="color: rgb(55, 48, 163);"
+        >
+          📌 Impact Catalogue
+        </p>
+        <p
+          class="text-xs leading-relaxed"
+          style="color: rgb(67, 56, 202);"
+        >
+          Les nouveaux tarifs s'appliquent immédiatement à 
+          <strong>
+            tous les produits
+          </strong>
+           dès l'enregistrement. Les commandes déjà en cours 
+          <strong>
+            conservent le tarif verrouillé
+          </strong>
+           lors du paiement de leur acompte initial.
+        </p>
+      </div>
+    </div>
+    <div
+      class="flex flex-col gap-5"
+    >
+      <div
+        class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"
+      >
+        <div
+          class="px-5 py-4 border-b border-slate-100 flex items-center justify-between"
+        >
+          <div
+            class="flex items-center gap-2"
+          >
+            <svg
+              aria-hidden="true"
+              class="lucide lucide-package"
+              fill="none"
+              height="15"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              style="color: rgb(30, 27, 75);"
+              viewBox="0 0 24 24"
+              width="15"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+              />
+              <path
+                d="M12 22V12"
+              />
+              <polyline
+                points="3.29 7 12 12 20.71 7"
+              />
+              <path
+                d="m7.5 4.27 9 5.15"
+              />
+            </svg>
+            <h2
+              class="font-bold text-sm"
+              style="color: rgb(30, 27, 75);"
+            >
+              Simulation Live — Impact Catalogue
+            </h2>
+          </div>
+          <span
+            class="text-xs"
+            style="color: rgb(148, 163, 184);"
+          >
+            Temps réel
+          </span>
+        </div>
+        <div>
+          <div
+            class="border-b border-border px-4 py-4 last:border-0"
+          >
+            <div
+              class="flex flex-wrap items-center justify-between gap-2 mb-3"
+            >
+              <span
+                class="flex items-center gap-1.5 text-sm font-bold text-text"
+              >
+                <span>
+                  👟
+                </span>
+                Sneakers Nike Air Max
+              </span>
+              <span
+                class="text-xs px-2.5 py-1 rounded-full font-semibold"
+                style="background: rgb(238, 242, 255); color: rgb(67, 56, 202); white-space: nowrap;"
+              >
+                ✈️ Aérien Express
+              </span>
+            </div>
+            <div
+              class="flex items-center gap-3 mb-3"
+            >
+              <div
+                class="di-muted-surface flex-1 rounded-xl border border-border p-3 text-center"
+              >
+                <p
+                  class="mb-1 text-xs text-text-subtle"
+                >
+                  Ancien prix
+                </p>
+                <p
+                  class="text-sm font-bold font-mono text-text-muted"
+                  style="text-decoration: none;"
+                >
+                  66 930 FCFA
+                </p>
+              </div>
+              <div
+                class="flex shrink-0 flex-col items-center gap-1"
+              >
+                <span
+                  class="text-slate-300 text-lg"
+                >
+                  →
+                </span>
+              </div>
+              <div
+                class="flex-1 rounded-xl border p-3 text-center di-muted-surface border-border"
+              >
+                <p
+                  class="mb-1 text-xs text-text-subtle"
+                >
+                  Nouveau prix
+                </p>
+                <p
+                  class="font-mono text-sm font-bold"
+                  style="color: rgb(100, 116, 139);"
+                >
+                  66 930 FCFA
+                </p>
+              </div>
+            </div>
+            <div
+              class="grid grid-cols-2 gap-2"
+            >
+              <div
+                class="flex flex-col gap-1 px-3 py-2.5 rounded-xl"
+                style="background: rgb(240, 253, 244); border: 1px solid rgb(167, 243, 208);"
+              >
+                <span
+                  class="text-xs font-semibold"
+                  style="color: rgb(5, 150, 105);"
+                >
+                  Acompte 2/3
+                </span>
+                <span
+                  class="text-sm font-mono font-black"
+                  style="color: rgb(5, 150, 105);"
+                >
+                  44 620 FCFA
+                </span>
+              </div>
+              <div
+                class="flex flex-col gap-1 px-3 py-2.5 rounded-xl"
+                style="background: rgb(238, 242, 255); border: 1px solid rgb(199, 210, 254);"
+              >
+                <span
+                  class="text-xs font-semibold"
+                  style="color: rgb(67, 56, 202);"
+                >
+                  Solde 1/3
+                </span>
+                <span
+                  class="text-sm font-mono font-black"
+                  style="color: rgb(67, 56, 202);"
+                >
+                  22 310 FCFA
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="border-b border-border px-4 py-4 last:border-0"
+          >
+            <div
+              class="flex flex-wrap items-center justify-between gap-2 mb-3"
+            >
+              <span
+                class="flex items-center gap-1.5 text-sm font-bold text-text"
+              >
+                <span>
+                  👜
+                </span>
+                Sac à main cuir PU
+              </span>
+              <span
+                class="text-xs px-2.5 py-1 rounded-full font-semibold"
+                style="background: rgb(240, 253, 244); color: rgb(5, 150, 105); white-space: nowrap;"
+              >
+                🛫 Aérien Éco
+              </span>
+            </div>
+            <div
+              class="flex items-center gap-3 mb-3"
+            >
+              <div
+                class="di-muted-surface flex-1 rounded-xl border border-border p-3 text-center"
+              >
+                <p
+                  class="mb-1 text-xs text-text-subtle"
+                >
+                  Ancien prix
+                </p>
+                <p
+                  class="text-sm font-bold font-mono text-text-muted"
+                  style="text-decoration: none;"
+                >
+                  32 200 FCFA
+                </p>
+              </div>
+              <div
+                class="flex shrink-0 flex-col items-center gap-1"
+              >
+                <span
+                  class="text-slate-300 text-lg"
+                >
+                  →
+                </span>
+              </div>
+              <div
+                class="flex-1 rounded-xl border p-3 text-center di-muted-surface border-border"
+              >
+                <p
+                  class="mb-1 text-xs text-text-subtle"
+                >
+                  Nouveau prix
+                </p>
+                <p
+                  class="font-mono text-sm font-bold"
+                  style="color: rgb(100, 116, 139);"
+                >
+                  32 200 FCFA
+                </p>
+              </div>
+            </div>
+            <div
+              class="grid grid-cols-2 gap-2"
+            >
+              <div
+                class="flex flex-col gap-1 px-3 py-2.5 rounded-xl"
+                style="background: rgb(240, 253, 244); border: 1px solid rgb(167, 243, 208);"
+              >
+                <span
+                  class="text-xs font-semibold"
+                  style="color: rgb(5, 150, 105);"
+                >
+                  Acompte 2/3
+                </span>
+                <span
+                  class="text-sm font-mono font-black"
+                  style="color: rgb(5, 150, 105);"
+                >
+                  21 467 FCFA
+                </span>
+              </div>
+              <div
+                class="flex flex-col gap-1 px-3 py-2.5 rounded-xl"
+                style="background: rgb(238, 242, 255); border: 1px solid rgb(199, 210, 254);"
+              >
+                <span
+                  class="text-xs font-semibold"
+                  style="color: rgb(67, 56, 202);"
+                >
+                  Solde 1/3
+                </span>
+                <span
+                  class="text-sm font-mono font-black"
+                  style="color: rgb(67, 56, 202);"
+                >
+                  10 733 FCFA
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="border-b border-border px-4 py-4 last:border-0"
+          >
+            <div
+              class="flex flex-wrap items-center justify-between gap-2 mb-3"
+            >
+              <span
+                class="flex items-center gap-1.5 text-sm font-bold text-text"
+              >
+                <span>
+                  📺
+                </span>
+                TV 55" Samsung
+              </span>
+              <span
+                class="text-xs px-2.5 py-1 rounded-full font-semibold"
+                style="background: rgb(255, 247, 237); color: rgb(217, 119, 6); white-space: nowrap;"
+              >
+                🚢 Maritime
+              </span>
+            </div>
+            <div
+              class="flex items-center gap-3 mb-3"
+            >
+              <div
+                class="di-muted-surface flex-1 rounded-xl border border-border p-3 text-center"
+              >
+                <p
+                  class="mb-1 text-xs text-text-subtle"
+                >
+                  Ancien prix
+                </p>
+                <p
+                  class="text-sm font-bold font-mono text-text-muted"
+                  style="text-decoration: none;"
+                >
+                  236 562 FCFA
+                </p>
+              </div>
+              <div
+                class="flex shrink-0 flex-col items-center gap-1"
+              >
+                <span
+                  class="text-slate-300 text-lg"
+                >
+                  →
+                </span>
+              </div>
+              <div
+                class="flex-1 rounded-xl border p-3 text-center di-muted-surface border-border"
+              >
+                <p
+                  class="mb-1 text-xs text-text-subtle"
+                >
+                  Nouveau prix
+                </p>
+                <p
+                  class="font-mono text-sm font-bold"
+                  style="color: rgb(100, 116, 139);"
+                >
+                  236 562 FCFA
+                </p>
+              </div>
+            </div>
+            <div
+              class="grid grid-cols-2 gap-2"
+            >
+              <div
+                class="flex flex-col gap-1 px-3 py-2.5 rounded-xl"
+                style="background: rgb(240, 253, 244); border: 1px solid rgb(167, 243, 208);"
+              >
+                <span
+                  class="text-xs font-semibold"
+                  style="color: rgb(5, 150, 105);"
+                >
+                  Acompte 2/3
+                </span>
+                <span
+                  class="text-sm font-mono font-black"
+                  style="color: rgb(5, 150, 105);"
+                >
+                  157 708 FCFA
+                </span>
+              </div>
+              <div
+                class="flex flex-col gap-1 px-3 py-2.5 rounded-xl"
+                style="background: rgb(238, 242, 255); border: 1px solid rgb(199, 210, 254);"
+              >
+                <span
+                  class="text-xs font-semibold"
+                  style="color: rgb(67, 56, 202);"
+                >
+                  Solde 1/3
+                </span>
+                <span
+                  class="text-sm font-mono font-black"
+                  style="color: rgb(67, 56, 202);"
+                >
+                  78 854 FCFA
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="fixed bottom-6 left-1/2 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-2xl border transition-all duration-300 w-[calc(100%-2rem)] max-w-sm"
+    style="transform: translateX(-50%) translateY(140px); opacity: 0; pointer-events: none;"
+  >
+    <svg
+      aria-hidden="true"
+      class="lucide lucide-circle-check-big shrink-0 text-success"
+      fill="none"
+      height="20"
+      stroke="currentColor"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+      width="20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M21.801 10A10 10 0 1 1 17 3.335"
+      />
+      <path
+        d="m9 11 3 3L22 4"
+      />
+    </svg>
+    <div
+      class="min-w-0"
+    >
+      <p
+        class="font-bold text-sm text-emerald-800"
+      >
+        Tarifs mis à jour !
+      </p>
+      <p
+        class="truncate text-xs text-success"
+      >
+        Tout le catalogue reflète ces nouveaux tarifs.
+      </p>
+    </div>
+  </div>
+</div>
+`;

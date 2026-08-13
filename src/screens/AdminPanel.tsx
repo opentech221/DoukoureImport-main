@@ -226,7 +226,7 @@ export default function AdminPanel({ onBack }: Props) {
       </div>
 
       {/* ── Contenu ── */}
-      <div className="p-4 lg:p-6 max-w-6xl mx-auto">
+      <div className="mx-auto max-w-7xl p-4 md:p-6 lg:p-8">
         <div className="mb-4 rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>

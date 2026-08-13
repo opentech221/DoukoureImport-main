@@ -229,7 +229,7 @@ export default function DeliveryPass({ orderRef }: Props) {
       </div>
 
       {/* ── Card livreur Paps ── */}
-      <div className="mx-4 mt-4 rounded-2xl bg-white border border-slate-100 shadow-sm overflow-hidden">
+      <div className="mx-auto mt-4 max-w-4xl overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm md:mx-8 lg:mt-8">
         <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div
@@ -299,7 +299,7 @@ export default function DeliveryPass({ orderRef }: Props) {
       </div>
 
       {/* ── DeliveryValidationQRCode — Ticket 3.2 ── */}
-      <div className="mx-4 mt-4 mb-6">
+      <div className="mx-auto mb-6 mt-4 max-w-4xl md:mx-8 lg:mt-6">
         <DeliveryValidationQRCode
           orderId={ORDER.orderId}
           remainingBalanceAmount={ORDER.balanceAmount}
@@ -326,9 +326,9 @@ export default function DeliveryPass({ orderRef }: Props) {
       {/* ── Modal paiement Mobile Money ── */}
       {payModal && (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center p-4"
+          className="fixed inset-0 z-50 flex items-end justify-center p-4 lg:items-center lg:backdrop-blur-sm"
           style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}>
-          <div className="w-full max-w-sm bg-white rounded-3xl shadow-2xl overflow-hidden">
+          <div className="w-full max-w-sm overflow-hidden rounded-3xl bg-white shadow-2xl lg:max-w-lg">
             <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
               <p className="font-bold text-base" style={{ color: '#1E1B4B' }}>Paiement Mobile Money</p>
               <button onClick={() => setPayModal(false)} className="text-slate-400 text-xl leading-none">×</button>

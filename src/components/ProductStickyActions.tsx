@@ -100,7 +100,7 @@ export default function ProductStickyActions({
     <>
       {/* ── Barre sticky ── */}
       <div
-        className="fixed bottom-0 left-0 right-0 z-40 px-4 py-3 border-t border-slate-100 space-y-2"
+        className="fixed bottom-0 left-0 right-0 z-40 space-y-2 border-t border-slate-100 px-4 py-3 lg:static lg:mt-6 lg:rounded-xl lg:border lg:p-0 lg:pt-5 lg:shadow-none"
         style={{
           background: "rgba(255,255,255,0.92)",
           backdropFilter: "blur(16px)",
@@ -132,12 +132,12 @@ export default function ProductStickyActions({
       {/* ── Modal Mobile Money ── */}
       {modal && (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center"
+          className="fixed inset-0 z-50 flex items-end justify-center lg:items-center lg:p-6"
           style={{ background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)" }}
           onClick={() => !submitting && setModal(false)}
         >
           <div
-            className="w-full max-w-sm bg-white rounded-t-3xl shadow-2xl overflow-hidden"
+            className="w-full max-w-sm overflow-hidden rounded-t-3xl bg-white shadow-2xl lg:rounded-3xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Handle bar */}

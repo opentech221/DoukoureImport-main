@@ -55,6 +55,7 @@ mkdirSync(reportDir, { recursive: true })
 
 const steps = []
 steps.push(runStep('build', 'npm run build'))
+steps.push(runStep('design-system', 'npm run qa:design-system'))
 
 let bundleResult = {
   status: 'skipped',
@@ -108,6 +109,9 @@ for (const testFile of [
   'src/screens/ProductPage.test.tsx',
   'src/screens/TrackingDashboard.test.tsx',
   'src/screens/DeliveryPass.test.tsx',
+  'src/components/GlobalShippingRateSettings.test.tsx',
+  'src/components/DeliveryValidationQRCode.test.tsx',
+  'src/components/OrderTrackingTimeline.test.tsx',
   'src/utils/deliveryPassOffline.test.ts',
   'src/utils/paymentService.test.ts',
   'src/utils/endpointLogic.integration.test.ts',

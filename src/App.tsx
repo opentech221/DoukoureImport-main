@@ -1,4 +1,5 @@
 import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react'
+import { Bell, Home, Package, QrCode, Search, Settings, ShoppingBag, Calculator } from 'lucide-react'
 import { attachDeliveryPassReplayHandlers } from './utils/deliveryPassOffline'
 
 const HomePage = lazy(() => import('./screens/HomePage'))
@@ -45,6 +46,14 @@ type BasicBottomNavProps = {
   minimal?: boolean
 }
 
+type DesktopHeaderProps = {
+  activeScreen: Screen
+  searchQuery: string
+  onSearchChange: (value: string) => void
+  onNavigate: (screen: Screen) => void
+  onIntentPrefetch: (screen: Screen) => void
+}
+
 const BASIC_NAV_ITEMS: Array<{ id: Screen; label: string }> = [
   { id: 'home', label: 'Accueil' },
   { id: 'product', label: 'Produit' },
@@ -70,7 +79,7 @@ function BasicBottomNav({
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-100 max-w-md mx-auto"
+      className="fixed bottom-0 left-0 right-0 z-40 mx-auto max-w-md border-t border-slate-100 md:hidden"
       style={{ background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(12px)' }}>
       <div className={`grid gap-1 px-1 py-2 ${minimal ? 'grid-cols-2' : 'grid-cols-6'}`}>
         {items.map(({ id, label }) => {
@@ -96,6 +105,85 @@ function BasicBottomNav({
   )
 }
 
+const DESKTOP_NAV_ITEMS: Array<{ id: Screen; label: string; Icon: typeof Home }> = [
+  { id: 'home', label: 'Accueil', Icon: Home },
+  { id: 'product', label: 'Catalogue', Icon: ShoppingBag },
+  { id: 'tracking', label: 'Suivi', Icon: Package },
+  { id: 'delivery', label: 'Pass livraison', Icon: QrCode },
+  { id: 'engine', label: 'Moteur tarifaire', Icon: Calculator },
+  { id: 'admin', label: 'Administration', Icon: Settings },
+]
+
+function DesktopHeader({
+  activeScreen,
+  searchQuery,
+  onSearchChange,
+  onNavigate,
+  onIntentPrefetch,
+}: DesktopHeaderProps) {
+  return (
+    <header className="sticky top-0 z-40 hidden border-b border-border bg-card/95 shadow-sm backdrop-blur md:block">
+      <div className="mx-auto flex max-w-7xl items-center gap-6 px-6 py-3 lg:px-8">
+        <button
+          type="button"
+          onClick={() => onNavigate('home')}
+          className="flex shrink-0 items-center gap-3 text-left"
+          aria-label="Retour à l'accueil Doukoure Import"
+        >
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-sm font-black text-white shadow-sm">
+            DI
+          </span>
+          <span className="hidden xl:block">
+            <span className="block text-sm font-extrabold leading-tight text-text">Doukoure Import</span>
+            <span className="block text-[11px] font-medium text-text-muted">Chine → Sénégal</span>
+          </span>
+        </button>
+
+        <label className="relative min-w-0 max-w-2xl flex-1">
+          <Search size={17} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-text-subtle" />
+          <input
+            type="search"
+            value={searchQuery}
+            onChange={(event) => onSearchChange(event.target.value)}
+            onFocus={() => onIntentPrefetch('home')}
+            placeholder="Rechercher dans le catalogue..."
+            className="h-11 w-full rounded-xl border border-border bg-surface-muted pl-10 pr-4 text-sm font-medium text-text outline-none transition focus:border-focus focus:bg-card"
+            aria-label="Recherche globale"
+          />
+        </label>
+
+        <nav className="flex items-center gap-1" aria-label="Navigation principale">
+          {DESKTOP_NAV_ITEMS.map(({ id, label, Icon }) => {
+            const active = activeScreen === id
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => onNavigate(id)}
+                onMouseEnter={() => onIntentPrefetch(id)}
+                onFocus={() => onIntentPrefetch(id)}
+                className={`inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold transition-colors ${active ? 'bg-primary-soft text-primary' : 'text-text-muted hover:bg-surface-muted hover:text-text'}`}
+                aria-current={active ? 'page' : undefined}
+              >
+                <Icon size={15} />
+                <span className="hidden xl:inline">{label}</span>
+              </button>
+            )
+          })}
+        </nav>
+
+        <button
+          type="button"
+          className="relative hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border text-text-muted transition hover:bg-surface-muted lg:flex"
+          aria-label="Notifications"
+        >
+          <Bell size={17} />
+        </button>
+      </div>
+    </header>
+  )
+}
+
 function ScreenLoader() {
   return (
     <div className="min-h-[60vh] flex items-center justify-center">
@@ -111,6 +199,7 @@ export default function App() {
   const [showPWABanner, setShowPWABanner] = useState(false)
   const [useEnhancedNav, setUseEnhancedNav] = useState(false)
   const [isConstrainedNetwork, setIsConstrainedNetwork] = useState(false)
+  const [globalSearchQuery, setGlobalSearchQuery] = useState('')
   const prefetchedScreensRef = useRef<Set<Screen>>(new Set())
   const lastTouchPrefetchAtRef = useRef(0)
 
@@ -251,9 +340,16 @@ export default function App() {
     setScreen(target.screen)
   }
 
+  function handleGlobalSearch(value: string) {
+    setGlobalSearchQuery(value)
+    if (screen !== 'home') {
+      handleNavigate({ screen: 'home' })
+    }
+  }
+
   const renderScreen = () => {
     switch (screen) {
-      case 'home':     return <HomePage onNavigate={handleNavigate} />
+      case 'home':     return <HomePage onNavigate={handleNavigate} globalSearchQuery={globalSearchQuery} />
       case 'product':  return <ProductPage onNavigate={handleNavigate} productId={selectedProductId} />
       case 'tracking': return <TrackingDashboard orderRef={selectedOrderRef} />
       case 'delivery': return <DeliveryPass orderRef={selectedOrderRef} />
@@ -273,8 +369,16 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen max-w-md mx-auto relative" style={{ background: '#F8FAFC' }}>
-      <div className="pb-20">
+    <div className="relative min-h-screen w-full bg-surface">
+      <DesktopHeader
+        activeScreen={screen}
+        searchQuery={globalSearchQuery}
+        onSearchChange={handleGlobalSearch}
+        onNavigate={(nextScreen) => handleNavigate({ screen: nextScreen })}
+        onIntentPrefetch={(nextScreen) => prefetchScreen(nextScreen, 'intent')}
+      />
+
+      <div className="mx-auto max-w-400 pb-20 md:pb-8">
         <Suspense fallback={<ScreenLoader />}>
           {renderScreen()}
         </Suspense>
@@ -282,7 +386,8 @@ export default function App() {
 
       {useEnhancedNav ? (
         <Suspense fallback={null}>
-          <BottomNav
+          <div className="md:hidden">
+            <BottomNav
             activeScreen={screen}
             onNavigate={(targetScreen) => handleNavigate({ screen: targetScreen })}
             onIntentPrefetch={(targetScreen) => prefetchScreen(targetScreen, 'intent')}
@@ -292,7 +397,8 @@ export default function App() {
               lastTouchPrefetchAtRef.current = now
               prefetchScreen(targetScreen, 'intent')
             }}
-          />
+            />
+          </div>
         </Suspense>
       ) : (
         <BasicBottomNav

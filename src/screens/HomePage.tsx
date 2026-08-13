@@ -54,9 +54,10 @@ const NOTIFICATIONS: HomeNotification[] = [
 
 interface Props {
   onNavigate?: (target: { screen: string; productId?: string | number | null; orderRef?: string | null }) => void
+  globalSearchQuery?: string
 }
 
-export default function HomePage({ onNavigate }: Props) {
+export default function HomePage({ onNavigate, globalSearchQuery = '' }: Props) {
   const [searchQuery,  setSearchQuery]  = useState('')
   const [searchActive, setSearchActive] = useState(false)
   const [container,    setContainer]    = useState<ContainerData>(FALLBACK_CONTAINER)
@@ -68,6 +69,10 @@ export default function HomePage({ onNavigate }: Props) {
   const searchRef = useRef<HTMLInputElement>(null)
 
   const unreadCount = NOTIFICATIONS.filter(n => !notifRead.has(n.id)).length
+
+  useEffect(() => {
+    setSearchQuery(globalSearchQuery)
+  }, [globalSearchQuery])
 
   const filteredProducts = searchQuery.trim()
     ? products.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -210,7 +215,7 @@ export default function HomePage({ onNavigate }: Props) {
         </div>
 
         {/* Barre de recherche */}
-        <div className="relative">
+        <div className="relative md:hidden">
           <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             ref={searchRef}
@@ -248,7 +253,7 @@ export default function HomePage({ onNavigate }: Props) {
       </div>
 
       {/* ── Widget SharedContainerProgress — Ticket 2.1 ── */}
-      <div className="mx-4 -mt-4">
+      <div className="mx-auto -mt-4 max-w-4xl px-4 md:px-8">
         <SharedContainerProgress
           containerTargetCBM={container.targetCBM}
           currentAllocatedCBM={container.allocatedCBM}
@@ -264,7 +269,7 @@ export default function HomePage({ onNavigate }: Props) {
       </div>
 
       {/* ── Grille produits populaires — Ticket 2.3 ── */}
-      <div className="mx-4 mt-6">
+      <div className="mx-auto mt-6 max-w-7xl px-4 md:px-8">
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-bold text-sm flex items-center gap-2" style={{ color: '#1E1B4B' }}>
             <TrendingUp size={15} style={{ color: '#059669' }} />
@@ -288,7 +293,7 @@ export default function HomePage({ onNavigate }: Props) {
             <p className="text-xs text-slate-400 text-center">Essayez avec un autre mot-clé ou utilisez la recherche par image ci-dessus.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 lg:gap-4">
             {filteredProducts.map(p => {
               const tagStyle = TAG_COLORS[p.badge]
               const priceFormatted = new Intl.NumberFormat('fr-SN').format(p.price_xof)

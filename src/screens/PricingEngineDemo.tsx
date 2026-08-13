@@ -81,9 +81,9 @@ export default function PricingEngineDemo() {
   const cbm = toCbm(dims)
 
   return (
-    <div className="min-h-screen pb-24" style={{ background: '#F8FAFC', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div className="min-h-screen bg-surface pb-24">
       {/* Header */}
-      <div className="px-4 pt-10 pb-5" style={{ background: 'linear-gradient(160deg, #1E1B4B 0%, #312E81 100%)' }}>
+      <div className="bg-primary px-4 pb-5 pt-10 md:px-8 lg:pt-8">
         <div className="flex items-center gap-3 mb-1">
           <Calculator size={20} className="text-indigo-300" />
           <h1 className="text-white font-extrabold text-lg">Moteur de Calcul</h1>
@@ -92,12 +92,12 @@ export default function PricingEngineDemo() {
       </div>
 
       {/* Inputs produit */}
-      <div className="mx-4 mt-4 bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+      <div className="mx-auto mt-4 max-w-7xl overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm md:mx-8 lg:mt-8 lg:grid lg:grid-cols-2">
         <div className="px-4 py-3 border-b border-slate-100 flex items-center gap-2">
           <TrendingUp size={14} style={{ color: '#059669' }} />
           <span className="font-bold text-sm" style={{ color: '#1E1B4B' }}>Paramètres du produit</span>
         </div>
-        <div className="px-4 py-4 space-y-4">
+        <div className="space-y-4 px-4 py-4 md:px-6 lg:px-8">
 
           {/* Prix de base */}
           <div>
@@ -169,7 +169,7 @@ export default function PricingEngineDemo() {
 
       {/* Résultat calcul initial */}
       {pricing ? (
-        <div className="mx-4 mt-4 rounded-2xl overflow-hidden shadow-sm border border-slate-100 bg-white">
+        <div className="mx-auto mt-4 max-w-7xl overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm md:mx-8">
           <div className="px-4 py-3 border-b border-slate-100 flex items-center gap-2">
             <Calculator size={14} style={{ color: '#1E1B4B' }} />
             <span className="font-bold text-sm" style={{ color: '#1E1B4B' }}>Résultat — Calcul initial</span>
@@ -237,7 +237,7 @@ export default function PricingEngineDemo() {
       )}
 
       {/* Section ajustement pesée */}
-      <div className="mx-4 mt-4 bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+      <div className="mx-auto mt-4 max-w-7xl overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm md:mx-8">
         <button onClick={() => setShowAdjustment(s => !s)}
           className="w-full flex items-center justify-between px-4 py-3 border-b border-slate-100">
           <div className="flex items-center gap-2">
@@ -302,8 +302,8 @@ export default function PricingEngineDemo() {
       </div>
 
       {/* Note test */}
-      <div className="mx-4 mt-4 mb-6 p-3 rounded-xl border border-indigo-100 flex items-start gap-2" style={{ background: '#EEF2FF' }}>
-        <RefreshCw size={13} style={{ color: '#4338CA' }} className="mt-0.5 flex-shrink-0" />
+      <div className="mx-auto mb-6 mt-4 flex max-w-7xl items-start gap-2 rounded-xl border border-indigo-100 bg-primary-soft p-3 md:mx-8">
+        <RefreshCw size={13} style={{ color: '#4338CA' }} className="mt-0.5 shrink-0" />
         <p className="text-xs leading-relaxed" style={{ color: '#3730A3' }}>
           Ce moteur est couvert par <strong>42 tests unitaires vitest</strong> validant les cas nominaux, les ajustements de pesée, les crédits, la validation des entrées et les scénarios bout-en-bout. Lancez <code className="font-mono bg-indigo-100 px-1 rounded">pnpm test</code> pour les exécuter.
         </p>
