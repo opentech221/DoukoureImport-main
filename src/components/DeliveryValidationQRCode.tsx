@@ -213,7 +213,13 @@ function UnpaidView({
   // Expiry display: 48h from now
   const expiresAt = useMemo(() => {
     const d = new Date(Date.now() + 48 * 3600 * 1000)
-    return d.toLocaleDateString('fr-SN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
+    return d.toLocaleDateString('fr-SN', {
+      day: '2-digit',
+      month: 'short',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'Africa/Dakar',
+    })
   }, [])
 
   async function handleQueueValidation() {
