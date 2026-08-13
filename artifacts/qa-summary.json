@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-13T19:11:08.694Z",
+  "generatedAt": "2026-08-13T21:13:18.811Z",
   "environment": "local",
   "verdict": "passed",
   "budgets": {
     "status": "passed",
-    "entryBundleKb": 15.94,
-    "totalJsKb": 402.96,
+    "entryBundleKb": 16.48,
+    "totalJsKb": 413.25,
     "entryBudgetKb": 40,
     "totalBudgetKb": 420
   },
@@ -13,84 +13,84 @@
     {
       "label": "build",
       "status": "passed",
-      "startedAt": "2026-08-13T19:08:35.315Z",
-      "finishedAt": "2026-08-13T19:08:44.636Z"
+      "startedAt": "2026-08-13T21:08:42.973Z",
+      "finishedAt": "2026-08-13T21:08:59.640Z"
     },
     {
       "label": "design-system",
       "status": "passed",
-      "startedAt": "2026-08-13T19:08:44.636Z",
-      "finishedAt": "2026-08-13T19:08:47.664Z"
+      "startedAt": "2026-08-13T21:08:59.641Z",
+      "finishedAt": "2026-08-13T21:09:05.396Z"
     },
     {
       "label": "bundle-budgets",
       "status": "passed",
-      "startedAt": "2026-08-13T19:08:47.674Z",
-      "finishedAt": "2026-08-13T19:08:47.674Z",
-      "entryBundleKb": 15.94,
-      "totalJsKb": 402.96,
+      "startedAt": "2026-08-13T21:09:05.412Z",
+      "finishedAt": "2026-08-13T21:09:05.412Z",
+      "entryBundleKb": 16.48,
+      "totalJsKb": 413.25,
       "entryBudgetKb": 40,
       "totalBudgetKb": 420
     },
     {
       "label": "synthetic-checks:ProductPage.test.tsx",
       "status": "passed",
-      "startedAt": "2026-08-13T19:08:47.674Z",
-      "finishedAt": "2026-08-13T19:09:03.488Z"
+      "startedAt": "2026-08-13T21:09:05.412Z",
+      "finishedAt": "2026-08-13T21:09:33.870Z"
     },
     {
       "label": "synthetic-checks:TrackingDashboard.test.tsx",
       "status": "passed",
-      "startedAt": "2026-08-13T19:09:03.488Z",
-      "finishedAt": "2026-08-13T19:09:18.866Z"
+      "startedAt": "2026-08-13T21:09:33.870Z",
+      "finishedAt": "2026-08-13T21:10:02.328Z"
     },
     {
       "label": "synthetic-checks:DeliveryPass.test.tsx",
       "status": "passed",
-      "startedAt": "2026-08-13T19:09:18.866Z",
-      "finishedAt": "2026-08-13T19:09:33.167Z"
+      "startedAt": "2026-08-13T21:10:02.328Z",
+      "finishedAt": "2026-08-13T21:10:30.222Z"
     },
     {
       "label": "synthetic-checks:GlobalShippingRateSettings.test.tsx",
       "status": "passed",
-      "startedAt": "2026-08-13T19:09:33.167Z",
-      "finishedAt": "2026-08-13T19:09:46.755Z"
+      "startedAt": "2026-08-13T21:10:30.222Z",
+      "finishedAt": "2026-08-13T21:10:54.457Z"
     },
     {
       "label": "synthetic-checks:DeliveryValidationQRCode.test.tsx",
       "status": "passed",
-      "startedAt": "2026-08-13T19:09:46.755Z",
-      "finishedAt": "2026-08-13T19:10:00.684Z"
+      "startedAt": "2026-08-13T21:10:54.457Z",
+      "finishedAt": "2026-08-13T21:11:27.986Z"
     },
     {
       "label": "synthetic-checks:OrderTrackingTimeline.test.tsx",
       "status": "passed",
-      "startedAt": "2026-08-13T19:10:00.684Z",
-      "finishedAt": "2026-08-13T19:10:15.463Z"
+      "startedAt": "2026-08-13T21:11:27.986Z",
+      "finishedAt": "2026-08-13T21:12:04.511Z"
     },
     {
       "label": "synthetic-checks:deliveryPassOffline.test.ts",
       "status": "passed",
-      "startedAt": "2026-08-13T19:10:15.463Z",
-      "finishedAt": "2026-08-13T19:10:28.249Z"
+      "startedAt": "2026-08-13T21:12:04.512Z",
+      "finishedAt": "2026-08-13T21:12:43.068Z"
     },
     {
       "label": "synthetic-checks:paymentService.test.ts",
       "status": "passed",
-      "startedAt": "2026-08-13T19:10:28.249Z",
-      "finishedAt": "2026-08-13T19:10:39.992Z"
+      "startedAt": "2026-08-13T21:12:43.068Z",
+      "finishedAt": "2026-08-13T21:12:57.550Z"
     },
     {
       "label": "synthetic-checks:endpointLogic.integration.test.ts",
       "status": "passed",
-      "startedAt": "2026-08-13T19:10:39.992Z",
-      "finishedAt": "2026-08-13T19:10:51.980Z"
+      "startedAt": "2026-08-13T21:12:57.550Z",
+      "finishedAt": "2026-08-13T21:13:08.233Z"
     },
     {
       "label": "synthetic-checks:orderLifecycle.test.ts",
       "status": "passed",
-      "startedAt": "2026-08-13T19:10:51.980Z",
-      "finishedAt": "2026-08-13T19:11:08.693Z"
+      "startedAt": "2026-08-13T21:13:08.233Z",
+      "finishedAt": "2026-08-13T21:13:18.811Z"
     }
   ]
 }

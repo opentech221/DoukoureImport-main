@@ -4,8 +4,8 @@
 - Verdict: passed
 - Entry bundle budget: 40 KB
 - Total JS budget: 420 KB
-- Entry bundle measured: 15.94 KB
-- Total JS measured: 402.96 KB
+- Entry bundle measured: 16.48 KB
+- Total JS measured: 413.25 KB
 
 ## Steps
 - build: passed

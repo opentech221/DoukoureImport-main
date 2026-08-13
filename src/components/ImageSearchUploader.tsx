@@ -37,6 +37,8 @@ interface Props {
   onSubmit?: (payload: SearchPayload) => void | Promise<void>
   /** Classes CSS supplémentaires sur le conteneur racine */
   className?: string
+  title?: string
+  subtitle?: string
 }
 
 export interface SearchPayload {
@@ -364,7 +366,7 @@ function Toast({ state }: { state: ToastState }) {
 // Composant principal
 // ---------------------------------------------------------------------------
 
-export default function ImageSearchUploader({ onSubmit, className = '' }: Props) {
+export default function ImageSearchUploader({ onSubmit, className = '', title = 'Produit introuvable ? Confiez-nous la recherche !', subtitle = 'Soumettez l’image du produit : notre équipe le source en Chine et vous recontacte sur WhatsApp.' }: Props) {
   const [media,        setMedia]        = useState<MediaFile | null>(null)
   const [dragging,     setDragging]     = useState(false)
   const [budgetXOF,    setBudgetXOF]    = useState('')
@@ -467,9 +469,9 @@ export default function ImageSearchUploader({ onSubmit, className = '' }: Props)
           </div>
           <div>
             <p className="font-bold text-sm" style={{ color: '#1E1B4B' }}>
-              Recherche par Image / Vidéo
+              {title}
             </p>
-            <p className="text-xs text-slate-400">Photo du produit → prix usine Chine en 24h</p>
+            <p className="text-xs text-slate-400">{subtitle}</p>
           </div>
         </div>
 

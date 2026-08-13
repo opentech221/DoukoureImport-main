@@ -1,7 +1,8 @@
 import { lazy, Suspense, useState, useEffect, useRef } from 'react'
-import { Search, ChevronRight, TrendingUp, Star, Bell, Loader2, X, User } from 'lucide-react'
+import { Search, Camera, ChevronRight, TrendingUp, Star, Bell, Loader2, X, User, PackagePlus } from 'lucide-react'
 import SharedContainerProgress from '../components/SharedContainerProgress'
 import ImageSearchUploader, { type SearchPayload } from '../components/ImageSearchUploader'
+import ImmersiveVisualSearch from '../components/ImmersiveVisualSearch'
 import { getPostgrestClient } from '../lib/getPostgrestClient'
 import { getStorageClient } from '../lib/getStorageClient'
 import { emitQaError, emitQaEvent } from '../utils/observability'
@@ -55,9 +56,12 @@ const NOTIFICATIONS: HomeNotification[] = [
 interface Props {
   onNavigate?: (target: { screen: string; productId?: string | number | null; orderRef?: string | null }) => void
   globalSearchQuery?: string
+  visualSearchOpen?: boolean
+  visualSearchMode?: 'catalog' | 'sourcing'
+  onVisualSearchClose?: () => void
 }
 
-export default function HomePage({ onNavigate, globalSearchQuery = '' }: Props) {
+export default function HomePage({ onNavigate, globalSearchQuery = '', visualSearchOpen = false, visualSearchMode = 'sourcing', onVisualSearchClose }: Props) {
   const [searchQuery,  setSearchQuery]  = useState('')
   const [searchActive, setSearchActive] = useState(false)
   const [container,    setContainer]    = useState<ContainerData>(FALLBACK_CONTAINER)
@@ -65,6 +69,10 @@ export default function HomePage({ onNavigate, globalSearchQuery = '' }: Props) 
   const [loadingProd,  setLoadingProd]  = useState(true)
   const [showNotifs,   setShowNotifs]   = useState(false)
   const [showProfile,  setShowProfile]  = useState(false)
+  const [showVisualSearch, setShowVisualSearch] = useState(false)
+  const [activeVisualMode, setActiveVisualMode] = useState<'catalog' | 'sourcing'>(visualSearchMode)
+  const [catalogSearchLoading, setCatalogSearchLoading] = useState(false)
+  const [catalogSearchComplete, setCatalogSearchComplete] = useState(false)
   const [notifRead,    setNotifRead]    = useState<Set<number>>(new Set(NOTIFICATIONS.filter(n => n.read).map(n => n.id)))
   const searchRef = useRef<HTMLInputElement>(null)
 
@@ -73,6 +81,32 @@ export default function HomePage({ onNavigate, globalSearchQuery = '' }: Props) 
   useEffect(() => {
     setSearchQuery(globalSearchQuery)
   }, [globalSearchQuery])
+
+  useEffect(() => {
+    setShowVisualSearch(visualSearchOpen)
+    if (visualSearchOpen) setActiveVisualMode(visualSearchMode)
+  }, [visualSearchOpen])
+
+  function closeVisualSearch() {
+    setShowVisualSearch(false)
+    onVisualSearchClose?.()
+  }
+
+  function openSourcing() {
+    setActiveVisualMode('sourcing')
+    setShowVisualSearch(true)
+  }
+
+  function handleCatalogVisualSearch(file: File | undefined) {
+    if (!file) return
+    setCatalogSearchLoading(true)
+    setCatalogSearchComplete(false)
+    window.setTimeout(() => {
+      setCatalogSearchLoading(false)
+      setCatalogSearchComplete(true)
+      closeVisualSearch()
+    }, 900)
+  }
 
   const filteredProducts = searchQuery.trim()
     ? products.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -172,7 +206,7 @@ export default function HomePage({ onNavigate, globalSearchQuery = '' }: Props) 
     <div className="min-h-screen pb-24" style={{ background: '#F8FAFC', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
 
       {/* ── Header héro ── */}
-      <div className="px-4 pt-10 pb-6 relative overflow-hidden"
+      <div className="relative overflow-hidden px-4 pb-4 pt-6 md:px-8 md:pb-6"
         style={{ background: 'linear-gradient(160deg, #1E1B4B 0%, #312E81 100%)' }}>
         <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full opacity-10"
           style={{ background: 'radial-gradient(circle, #A5B4FC, transparent)' }} />
@@ -225,30 +259,36 @@ export default function HomePage({ onNavigate, globalSearchQuery = '' }: Props) 
             onChange={e => setSearchQuery(e.target.value)}
             onFocus={() => setSearchActive(true)}
             onBlur={() => setSearchActive(false)}
-            className="w-full pl-10 pr-14 py-3.5 rounded-2xl text-sm font-medium placeholder-slate-400 outline-none border-2 transition-colors"
+            className="w-full rounded-2xl border-2 py-3 pl-10 pr-24 text-sm font-medium placeholder-slate-400 outline-none transition-colors"
             style={{
               background: 'rgba(255,255,255,0.97)',
               color: '#1E1B4B',
               borderColor: searchActive ? '#059669' : 'transparent',
             }}
           />
-          {searchQuery ? (
+          <div className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-1">
             <button
-              onClick={() => { setSearchQuery(''); searchRef.current?.focus() }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-xl flex items-center justify-center"
-              style={{ background: '#E2E8F0' }}
-              aria-label="Effacer la recherche">
-              <X size={14} style={{ color: '#64748B' }} />
+              onClick={() => { setActiveVisualMode('catalog'); setShowVisualSearch(true) }}
+              className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary-soft text-primary"
+              aria-label="Rechercher par photo">
+              <Camera size={14} />
             </button>
-          ) : (
-            <button
-              onClick={() => searchRef.current?.focus()}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-xl flex items-center justify-center"
-              style={{ background: '#059669' }}
-              aria-label="Rechercher">
-              <Search size={14} className="text-white" />
-            </button>
-          )}
+            {searchQuery ? (
+              <button
+                onClick={() => { setSearchQuery(''); searchRef.current?.focus() }}
+                className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-200"
+                aria-label="Effacer la recherche">
+                <X size={14} className="text-text-muted" />
+              </button>
+            ) : (
+              <button
+                onClick={() => searchRef.current?.focus()}
+                className="flex h-8 w-8 items-center justify-center rounded-xl bg-success"
+                aria-label="Rechercher">
+                <Search size={14} className="text-white" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -263,17 +303,12 @@ export default function HomePage({ onNavigate, globalSearchQuery = '' }: Props) 
         />
       </div>
 
-      {/* ── Recherche Visuelle — Ticket 2.2 ── */}
-      <div className="mx-4 mt-5">
-        <ImageSearchUploader onSubmit={handleVisualSearch} />
-      </div>
-
       {/* ── Grille produits populaires — Ticket 2.3 ── */}
       <div className="mx-auto mt-6 max-w-7xl px-4 md:px-8">
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-bold text-sm flex items-center gap-2" style={{ color: '#1E1B4B' }}>
             <TrendingUp size={15} style={{ color: '#059669' }} />
-            {searchQuery ? `Résultats pour "${searchQuery}"` : 'Produits Populaires'}
+            {catalogSearchComplete ? 'Résultats visuels du catalogue' : searchQuery ? `Résultats pour "${searchQuery}"` : 'Produits Populaires'}
           </h2>
           {!searchQuery && (
             <button className="text-xs font-semibold flex items-center gap-1" style={{ color: '#059669' }}>
@@ -290,7 +325,7 @@ export default function HomePage({ onNavigate, globalSearchQuery = '' }: Props) 
           <div className="flex flex-col items-center py-12 gap-3">
             <span className="text-4xl">🔍</span>
             <p className="font-semibold text-sm" style={{ color: '#1E1B4B' }}>Aucun résultat pour "{searchQuery}"</p>
-            <p className="text-xs text-slate-400 text-center">Essayez avec un autre mot-clé ou utilisez la recherche par image ci-dessus.</p>
+            <p className="max-w-md text-center text-xs text-slate-400">Article introuvable ? Utilisez le bouton 📦 flottant en bas pour soumettre une demande de sourcing à notre équipe !</p>
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 lg:gap-4">
@@ -357,6 +392,47 @@ export default function HomePage({ onNavigate, globalSearchQuery = '' }: Props) 
           }}
         />
       </Suspense>
+
+      <button
+        type="button"
+        onClick={openSourcing}
+        className="fixed bottom-20 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-success p-4 text-white shadow-lg transition-transform hover:scale-105 active:scale-95 md:bottom-6 md:right-6"
+        aria-label="Ouvrir une demande de sourcing">
+        <PackagePlus size={22} />
+      </button>
+
+      <ImmersiveVisualSearch
+        open={showVisualSearch && activeVisualMode === 'catalog'}
+        onClose={closeVisualSearch}
+        onSearch={handleCatalogVisualSearch}
+      />
+
+      {showVisualSearch && activeVisualMode === 'sourcing' && (
+        <div
+          className="fixed inset-0 z-50 flex items-end justify-center bg-slate-950/60 p-0 backdrop-blur-sm md:items-center md:p-6"
+          onClick={closeVisualSearch}>
+          <div
+            className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-t-3xl bg-surface shadow-2xl md:rounded-3xl"
+            onClick={(event) => event.stopPropagation()}>
+            <div className="flex items-center justify-between border-b border-border px-5 py-4">
+              <div>
+                <p className="text-sm font-bold text-text">Produit introuvable ? Confiez-nous la recherche !</p>
+                <p className="text-xs text-text-muted">Nous sourçons votre produit en Chine et vous recontactons sur WhatsApp.</p>
+              </div>
+              <button
+                type="button"
+                onClick={closeVisualSearch}
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-muted text-text-muted"
+                aria-label="Fermer la recherche visuelle">
+                <X size={17} />
+              </button>
+            </div>
+            <div className="p-4 md:p-6">
+              <ImageSearchUploader onSubmit={handleVisualSearch} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

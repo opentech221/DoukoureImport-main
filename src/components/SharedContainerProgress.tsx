@@ -8,7 +8,7 @@
  */
 
 import { useEffect, useState, useRef } from 'react'
-import { Flame, Clock, Ship, Users, AlertTriangle, TrendingUp, Share2 } from 'lucide-react'
+import { Flame, Clock, Ship, Users, AlertTriangle, TrendingUp, Share2, ChevronDown, ChevronUp } from 'lucide-react'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -116,6 +116,7 @@ export default function SharedContainerProgress({
   const colors = getColors(pct)
   const urgency = urgencyLevel(pct)
   const countdown = useCountdown(departureDeadline)
+  const [expanded, setExpanded] = useState(false)
 
   // Barre animée : on commence à 0 puis transite vers pct après le montage
   const [barPct, setBarPct] = useState(0)
@@ -216,6 +217,25 @@ export default function SharedContainerProgress({
         </div>
       </div>
 
+      {!expanded && (
+        <button
+          type="button"
+          onClick={() => setExpanded(true)}
+          className="flex w-full items-center justify-between border-t border-slate-100 bg-surface-muted px-4 py-3 text-left transition-colors hover:bg-slate-100"
+          aria-expanded="false"
+        >
+          <span className="flex items-center gap-2 text-xs font-bold text-text">
+            <Clock size={13} className="text-amber" />
+            {countdown.expired ? 'Conteneur fermé — prochain départ en cours' : 'Départ du navire dans'}{' '}
+            <span className="font-mono text-amber">
+              {countdown.days}j {String(countdown.hours).padStart(2, '0')}h {String(countdown.mins).padStart(2, '0')}m
+            </span>
+          </span>
+          <ChevronDown size={17} className="shrink-0 text-text-muted" />
+        </button>
+      )}
+
+      {expanded && <div className="animate-slide-up">
       {/* ── Stats rapides ── */}
       <div className="grid grid-cols-3 gap-px border-t border-b border-slate-100"
         style={{ background: '#F1F5F9' }}>
@@ -278,6 +298,15 @@ export default function SharedContainerProgress({
           Lien pré-rempli · Conteneur {containerName} · {pct}% rempli
         </p>
       </div>
+      <button
+        type="button"
+        onClick={() => setExpanded(false)}
+        className="flex w-full items-center justify-center gap-2 border-t border-slate-100 py-3 text-xs font-bold text-text-muted transition-colors hover:bg-surface-muted"
+        aria-expanded="true"
+      >
+        Réduire <ChevronUp size={15} />
+      </button>
+      </div>}
     </div>
   )
 }

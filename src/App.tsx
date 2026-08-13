@@ -1,5 +1,5 @@
 import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react'
-import { Bell, Home, Package, QrCode, Search, Settings, ShoppingBag, Calculator } from 'lucide-react'
+import { Bell, Camera, Home, Package, QrCode, Search, Settings, ShoppingBag, Calculator } from 'lucide-react'
 import { attachDeliveryPassReplayHandlers } from './utils/deliveryPassOffline'
 
 const HomePage = lazy(() => import('./screens/HomePage'))
@@ -52,6 +52,7 @@ type DesktopHeaderProps = {
   onSearchChange: (value: string) => void
   onNavigate: (screen: Screen) => void
   onIntentPrefetch: (screen: Screen) => void
+  onOpenVisualSearch: () => void
 }
 
 const BASIC_NAV_ITEMS: Array<{ id: Screen; label: string }> = [
@@ -120,6 +121,7 @@ function DesktopHeader({
   onSearchChange,
   onNavigate,
   onIntentPrefetch,
+  onOpenVisualSearch,
 }: DesktopHeaderProps) {
   return (
     <header className="sticky top-0 z-40 hidden border-b border-border bg-card/95 shadow-sm backdrop-blur md:block">
@@ -150,6 +152,14 @@ function DesktopHeader({
             className="h-11 w-full rounded-xl border border-border bg-surface-muted pl-10 pr-4 text-sm font-medium text-text outline-none transition focus:border-focus focus:bg-card"
             aria-label="Recherche globale"
           />
+          <button
+            type="button"
+            onClick={onOpenVisualSearch}
+            className="absolute right-1.5 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg bg-primary-soft text-primary"
+            aria-label="Rechercher par photo dans le catalogue"
+          >
+            <Camera size={15} />
+          </button>
         </label>
 
         <nav className="flex items-center gap-1" aria-label="Navigation principale">
@@ -200,6 +210,8 @@ export default function App() {
   const [useEnhancedNav, setUseEnhancedNav] = useState(false)
   const [isConstrainedNetwork, setIsConstrainedNetwork] = useState(false)
   const [globalSearchQuery, setGlobalSearchQuery] = useState('')
+  const [visualSearchOpen, setVisualSearchOpen] = useState(false)
+  const [visualSearchMode, setVisualSearchMode] = useState<'catalog' | 'sourcing'>('sourcing')
   const prefetchedScreensRef = useRef<Set<Screen>>(new Set())
   const lastTouchPrefetchAtRef = useRef(0)
 
@@ -349,10 +361,10 @@ export default function App() {
 
   const renderScreen = () => {
     switch (screen) {
-      case 'home':     return <HomePage onNavigate={handleNavigate} globalSearchQuery={globalSearchQuery} />
+      case 'home':     return <HomePage onNavigate={handleNavigate} globalSearchQuery={globalSearchQuery} visualSearchOpen={visualSearchOpen} visualSearchMode={visualSearchMode} onVisualSearchClose={() => setVisualSearchOpen(false)} />
       case 'product':  return <ProductPage onNavigate={handleNavigate} productId={selectedProductId} />
-      case 'tracking': return <TrackingDashboard orderRef={selectedOrderRef} />
-      case 'delivery': return <DeliveryPass orderRef={selectedOrderRef} />
+      case 'tracking': return <TrackingDashboard orderRef={selectedOrderRef} onBack={() => handleNavigate({ screen: 'home' })} />
+      case 'delivery': return <DeliveryPass orderRef={selectedOrderRef} onBack={() => handleNavigate({ screen: 'home' })} />
       case 'engine':   return <PricingEngineDemo />
       case 'admin':    return <AdminPanel />
     }
@@ -376,6 +388,11 @@ export default function App() {
         onSearchChange={handleGlobalSearch}
         onNavigate={(nextScreen) => handleNavigate({ screen: nextScreen })}
         onIntentPrefetch={(nextScreen) => prefetchScreen(nextScreen, 'intent')}
+        onOpenVisualSearch={() => {
+          setVisualSearchMode('catalog')
+          setVisualSearchOpen(true)
+          if (screen !== 'home') setScreen('home')
+        }}
       />
 
       <div className="mx-auto max-w-400 pb-20 md:pb-8">

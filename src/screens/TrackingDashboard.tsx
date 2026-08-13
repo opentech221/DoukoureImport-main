@@ -26,9 +26,10 @@ const FALLBACK_INSPECTION: InspectionData = {
 
 interface Props {
   orderRef?: string | null
+  onBack?: () => void
 }
 
-export default function TrackingDashboard({ orderRef }: Props) {
+export default function TrackingDashboard({ orderRef, onBack }: Props) {
   const [orderStatus,    setOrderStatus]    = useState<OrderStatus>(FALLBACK_STATUS)
   const [inspectionData, setInspectionData] = useState<InspectionData>(FALLBACK_INSPECTION)
   const [order,          setOrder]          = useState<{ order_ref?: string; product_name?: string; deposit_paid_xof?: number; shipping_option?: string } | null>(null)
@@ -157,6 +158,7 @@ export default function TrackingDashboard({ orderRef }: Props) {
         <button
           className="p-2 rounded-lg"
           style={{ background: 'rgba(255,255,255,0.12)' }}
+          onClick={onBack}
           aria-label="Retour">
           <ChevronLeft size={18} className="text-white" />
         </button>

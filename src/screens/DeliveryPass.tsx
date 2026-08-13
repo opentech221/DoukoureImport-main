@@ -27,9 +27,10 @@ const FALLBACK = {
 
 interface Props {
   orderRef?: string | null
+  onBack?: () => void
 }
 
-export default function DeliveryPass({ orderRef }: Props) {
+export default function DeliveryPass({ orderRef, onBack }: Props) {
   const [orderData,    setOrderData]    = useState(FALLBACK)
   const [orderStatus,  setOrderStatus]  = useState('OUT_FOR_DELIVERY')
   const [loading,      setLoading]      = useState(true)
@@ -218,6 +219,7 @@ export default function DeliveryPass({ orderRef }: Props) {
         <button
           className="p-2 rounded-lg"
           style={{ background: 'rgba(255,255,255,0.12)' }}
+          onClick={onBack}
           aria-label="Retour">
           <ChevronLeft size={18} className="text-white" />
         </button>
