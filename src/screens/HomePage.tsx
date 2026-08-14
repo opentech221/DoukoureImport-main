@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, useEffect, useRef } from 'react'
+import { lazy, Suspense, useState, useEffect, useRef, type TouchEvent } from 'react'
 import { Search, Camera, ChevronRight, TrendingUp, Star, Bell, Loader2, X, User, PackagePlus, Users, Clock } from 'lucide-react'
 import SharedContainerProgress from '../components/SharedContainerProgress'
 import ImageSearchUploader, { type SearchPayload } from '../components/ImageSearchUploader'
@@ -36,10 +36,10 @@ const TAG_COLORS: Record<string, { bg: string; color: string }> = {
 }
 
 const GROUP_BUY_PREVIEW = [
-  { joined: 2, size: 3, endsIn: '02:18:42' },
-  { joined: 1, size: 3, endsIn: '01:07:18' },
-  { joined: 2, size: 3, endsIn: '03:42:10' },
-  { joined: 1, size: 3, endsIn: '00:46:55' },
+  { joined: 2, size: 3, durationSeconds: 2 * 60 * 60 + 18 * 60 + 42 },
+  { joined: 1, size: 3, durationSeconds: 1 * 60 * 60 + 7 * 60 + 18 },
+  { joined: 2, size: 3, durationSeconds: 3 * 60 * 60 + 42 * 60 + 10 },
+  { joined: 1, size: 3, durationSeconds: 46 * 60 + 55 },
 ]
 
 type Product = { id: number; name: string; price_xof: number; image_url: string; rating: number; badge: string }
@@ -83,9 +83,31 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
   const [catalogSearchLoading, setCatalogSearchLoading] = useState(false)
   const [catalogSearchComplete, setCatalogSearchComplete] = useState(false)
   const [notifRead,    setNotifRead]    = useState<Set<number>>(new Set(NOTIFICATIONS.filter(n => n.read).map(n => n.id)))
+  const [countdownTick, setCountdownTick] = useState(() => Date.now())
+  const [refreshing, setRefreshing] = useState(false)
+  const [pullDistance, setPullDistance] = useState(0)
   const searchRef = useRef<HTMLInputElement>(null)
+  const homeScrollRef = useRef<HTMLDivElement>(null)
+  const pullStartY = useRef<number | null>(null)
+  const groupEndsAt = useRef<Record<number, number>>({})
 
   const unreadCount = NOTIFICATIONS.filter(n => !notifRead.has(n.id)).length
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setCountdownTick(Date.now()), 1000)
+    return () => window.clearInterval(timer)
+  }, [])
+
+  function getGroupCountdown(productId: number, groupIndex: number) {
+    if (!groupEndsAt.current[productId]) {
+      groupEndsAt.current[productId] = Date.now() + GROUP_BUY_PREVIEW[groupIndex].durationSeconds * 1000
+    }
+    const remainingSeconds = Math.max(0, Math.floor((groupEndsAt.current[productId] - countdownTick) / 1000))
+    const hours = Math.floor(remainingSeconds / 3600)
+    const minutes = Math.floor((remainingSeconds % 3600) / 60)
+    const seconds = remainingSeconds % 60
+    return [hours, minutes, seconds].map(value => String(value).padStart(2, '0')).join(':')
+  }
 
   useEffect(() => {
     setSearchQuery(globalSearchQuery)
@@ -128,11 +150,9 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
     ? products.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()))
     : products
 
-  useEffect(() => {
-    let cancelled = false
-
-    async function loadHomeData() {
-      try {
+  async function loadHomeData(showRefreshState = false) {
+    if (showRefreshState) setRefreshing(true)
+    try {
         const db = await getPostgrestClient()
 
         // Fetch container le plus proche (fallback silencieux si table absente)
@@ -143,7 +163,7 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
           .limit(1)
           .single()
 
-        if (!cancelled && !containerError && containerData) {
+        if (!containerError && containerData) {
           setContainer({
             targetCBM:    containerData.target_cbm,
             allocatedCBM: containerData.allocated_cbm,
@@ -159,22 +179,38 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
           .order('rating', { ascending: false })
           .limit(8)
 
-        if (!cancelled && !productsError && productsData && productsData.length > 0) {
+        if (!productsError && productsData && productsData.length > 0) {
           setProducts(productsData)
         }
       } catch {
         // Mode dégradé: les fallbacks mock restent affichés.
       } finally {
-        if (!cancelled) setLoadingProd(false)
+        setLoadingProd(false)
+        setRefreshing(false)
       }
-    }
+  }
 
+  useEffect(() => {
     loadHomeData()
-
-    return () => {
-      cancelled = true
-    }
   }, [])
+
+  function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
+    if ((homeScrollRef.current?.scrollTop ?? 0) === 0) pullStartY.current = event.touches[0].clientY
+  }
+
+  function handleTouchMove(event: TouchEvent<HTMLDivElement>) {
+    if (pullStartY.current === null) return
+    setPullDistance(Math.min(88, Math.max(0, event.touches[0].clientY - pullStartY.current)))
+  }
+
+  async function handleTouchEnd() {
+    const shouldRefresh = pullDistance >= 64
+    pullStartY.current = null
+    setPullDistance(0)
+    if (shouldRefresh && !refreshing) {
+      await loadHomeData(true)
+    }
+  }
 
   async function handleVisualSearch(payload: SearchPayload) {
     const storage = await getStorageClient()
@@ -219,19 +255,30 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
   }
 
   return (
-    <div className="min-h-screen pb-24" style={{ background: '#F8FAFC', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+    <div
+      ref={homeScrollRef}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      className="h-full min-h-0 overflow-y-auto overscroll-y-contain pb-24"
+      style={{ background: '#F8FAFC', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <div className={`sticky top-0 z-30 flex justify-center overflow-hidden transition-all duration-200 ${pullDistance > 0 ? 'h-10' : 'h-0'}`}>
+        <div className="mt-2 flex h-7 items-center rounded-full bg-white px-3 text-[11px] font-semibold text-text-muted shadow-sm">
+          {refreshing ? 'Actualisation...' : pullDistance >= 64 ? 'Relâchez pour actualiser' : 'Tirez pour actualiser'}
+        </div>
+      </div>
 
       {/* ── Header héro ── */}
-      <div className="relative overflow-hidden px-4 pb-4 pt-6 md:hidden"
+      <div className="relative overflow-hidden px-4 pb-3 pt-3 md:hidden"
         style={{ background: 'linear-gradient(160deg, #1E1B4B 0%, #312E81 100%)' }}>
         <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full opacity-10"
           style={{ background: 'radial-gradient(circle, #A5B4FC, transparent)' }} />
 
-        <div className="flex items-center justify-between mb-5 relative">
+        <div className="relative mb-3 flex items-center justify-between">
           <div>
             <p className="text-indigo-300 text-xs font-medium tracking-wide uppercase">Bienvenue sur</p>
-            <h1 className="text-white font-extrabold text-2xl leading-tight mt-0.5">Doukoure Import</h1>
-            <p className="text-indigo-300 text-xs mt-1 flex items-center gap-1.5">
+            <h1 className="mt-0.5 text-xl font-extrabold leading-tight text-white">Doukoure Import</h1>
+            <p className="mt-0.5 flex items-center gap-1.5 text-[11px] text-indigo-300">
               <span>🇨🇳</span>
               <span className="text-indigo-400">→</span>
               <span>🇸🇳</span>
@@ -275,7 +322,7 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
             onChange={e => setSearchQuery(e.target.value)}
             onFocus={() => setSearchActive(true)}
             onBlur={() => setSearchActive(false)}
-            className="w-full rounded-2xl border-2 py-3 pl-10 pr-24 text-sm font-medium placeholder-slate-400 outline-none transition-colors"
+            className="w-full rounded-xl border-2 py-2.5 pl-10 pr-24 text-sm font-medium placeholder-slate-400 outline-none transition-colors"
             style={{
               background: 'rgba(255,255,255,0.97)',
               color: '#1E1B4B',
@@ -320,7 +367,7 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
       </div>
 
       {/* ── Grille produits populaires — Ticket 2.3 ── */}
-      <div className="mx-auto mt-6 max-w-7xl px-4 md:px-8">
+      <div className="mx-auto mt-4 max-w-7xl px-4 md:px-8">
         <div className="flex items-center justify-between mb-3">
           <h2 className="font-bold text-sm flex items-center gap-2" style={{ color: '#1E1B4B' }}>
             <TrendingUp size={15} style={{ color: '#059669' }} />
@@ -348,7 +395,8 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
             {filteredProducts.map(p => {
               const tagStyle = TAG_COLORS[p.badge]
               const priceFormatted = new Intl.NumberFormat('fr-SN').format(p.price_xof)
-              const group = GROUP_BUY_PREVIEW[p.id % GROUP_BUY_PREVIEW.length]
+              const groupIndex = p.id % GROUP_BUY_PREVIEW.length
+              const group = GROUP_BUY_PREVIEW[groupIndex]
               const groupPrice = Math.round(p.price_xof * 0.92)
               const remaining = group.size - group.joined
               return (
@@ -382,7 +430,7 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
                       <div className="flex items-center justify-between gap-2 text-[11px] font-bold text-emerald-800"><span className="flex items-center gap-1"><Users size={12} /> Achat groupé</span><span>-8%</span></div>
                       <p className="mt-1 text-xs font-extrabold font-mono text-emerald-900">{new Intl.NumberFormat('fr-SN').format(groupPrice)} FCFA</p>
                       <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-emerald-100"><div className="h-full rounded-full bg-success" style={{ width: `${(group.joined / group.size) * 100}%` }} /></div>
-                      <p className="mt-1.5 flex items-center justify-between gap-1 text-[10px] font-semibold text-emerald-800"><span>Encore {remaining} personne{remaining > 1 ? 's' : ''}</span><span className="flex items-center gap-1"><Clock size={10} /> {group.endsIn}</span></p>
+                      <p className="mt-1.5 flex items-center justify-between gap-1 text-[10px] font-semibold text-emerald-800"><span>Encore {remaining} personne{remaining > 1 ? 's' : ''}</span><span className="flex items-center gap-1"><Clock size={10} /> {getGroupCountdown(p.id, groupIndex)}</span></p>
                     </div>
                   </div>
                 </button>

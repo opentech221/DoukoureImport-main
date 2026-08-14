@@ -136,7 +136,7 @@ function DesktopHeader({
   onOpenProfile,
 }: DesktopHeaderProps) {
   return (
-    <header className="sticky top-0 z-40 hidden border-b border-border bg-card/95 shadow-sm backdrop-blur md:block">
+    <header className="top-0 z-40 hidden shrink-0 border-b border-border bg-card/95 shadow-sm backdrop-blur md:block">
       <div className="mx-auto flex max-w-7xl items-center gap-6 px-6 py-3 lg:px-8">
         <button
           type="button"
@@ -387,7 +387,7 @@ export default function App() {
   }
 
   return (
-    <div className="relative min-h-screen w-full bg-surface">
+    <div className="relative flex h-screen w-full flex-col overflow-hidden bg-surface">
       <DesktopHeader
         activeScreen={screen}
         searchQuery={globalSearchQuery}
@@ -409,7 +409,7 @@ export default function App() {
         }}
       />
 
-      <div className="mx-auto max-w-400 pb-20 md:pb-8">
+      <div className="mx-auto min-h-0 w-full max-w-400 flex-1 overflow-hidden pb-20 md:pb-0">
         <Suspense fallback={<ScreenLoader />}>
           {renderScreen()}
         </Suspense>
