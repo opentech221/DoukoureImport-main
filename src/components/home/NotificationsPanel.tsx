@@ -13,9 +13,10 @@ interface Props {
   notifications: HomeNotification[];
   readIds: Set<number>;
   onClose: () => void;
+  onOpenPage: () => void;
 }
 
-export default function NotificationsPanel({ open, notifications, readIds, onClose }: Props) {
+export default function NotificationsPanel({ open, notifications, readIds, onClose, onOpenPage }: Props) {
   if (!open) return null;
 
   return (
@@ -59,9 +60,9 @@ export default function NotificationsPanel({ open, notifications, readIds, onClo
           ))}
         </div>
         <div className="px-5 py-3 border-t border-slate-100">
-          <p className="text-center text-xs text-slate-400">
-            {notifications.length} notifications · Toutes lues
-          </p>
+          <button type="button" onClick={onOpenPage} className="w-full rounded-xl bg-indigo-50 py-3 text-sm font-bold text-indigo-700">
+            Voir toutes les notifications
+          </button>
         </div>
       </div>
     </div>

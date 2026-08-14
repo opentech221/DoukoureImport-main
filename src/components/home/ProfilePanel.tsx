@@ -4,9 +4,10 @@ interface Props {
   open: boolean;
   onClose: () => void;
   onNavigateTracking: () => void;
+  onOpenPage: () => void;
 }
 
-export default function ProfilePanel({ open, onClose, onNavigateTracking }: Props) {
+export default function ProfilePanel({ open, onClose, onNavigateTracking, onOpenPage }: Props) {
   if (!open) return null;
 
   return (
@@ -61,6 +62,11 @@ export default function ProfilePanel({ open, onClose, onNavigateTracking }: Prop
         </div>
 
         <div className="px-5 py-4">
+          <button
+            onClick={onOpenPage}
+            className="mb-2 w-full rounded-2xl bg-indigo-50 py-3.5 text-sm font-bold text-indigo-700 transition-all active:scale-95">
+            Voir mon profil
+          </button>
           <button
             onClick={onClose}
             className="w-full py-3.5 rounded-2xl font-bold text-sm border-2 transition-all active:scale-95"

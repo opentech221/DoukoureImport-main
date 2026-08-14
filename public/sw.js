@@ -160,3 +160,34 @@ self.addEventListener('periodicsync', (event) => {
     event.waitUntil(replayQueuedValidations())
   }
 })
+
+self.addEventListener('push', (event) => {
+  let payload = {}
+  try {
+    payload = event.data ? event.data.json() : {}
+  } catch {
+    payload = { body: event.data?.text() }
+  }
+
+  const title = payload.title || 'Doukoure Import'
+  const options = {
+    body: payload.body || 'Vous avez une nouvelle notification.',
+    icon: '/icons/icon-192.png',
+    badge: '/icons/icon-192.png',
+    tag: payload.tag || 'doukoure-import-notification',
+    data: { url: payload.url || '/?screen=notifications' },
+  }
+  event.waitUntil(self.registration.showNotification(title, options))
+})
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close()
+  const targetUrl = new URL(event.notification.data?.url || '/', self.location.origin).href
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clients) => {
+      const existingClient = clients.find((client) => client.url === targetUrl || client.url.startsWith(self.location.origin))
+      if (existingClient) return existingClient.focus()
+      return self.clients.openWindow(targetUrl)
+    }),
+  )
+})

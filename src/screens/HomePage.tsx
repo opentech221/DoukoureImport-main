@@ -401,6 +401,10 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
           notifications={NOTIFICATIONS}
           readIds={notifRead}
           onClose={() => setShowNotifs(false)}
+          onOpenPage={() => {
+            setShowNotifs(false)
+            onNavigate?.({ screen: 'notifications' })
+          }}
         />
       </Suspense>
 
@@ -414,6 +418,10 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
           onNavigateTracking={() => {
             setShowProfile(false)
             onNavigate?.({ screen: 'tracking', orderRef: null })
+          }}
+          onOpenPage={() => {
+            setShowProfile(false)
+            onNavigate?.({ screen: 'profile' })
           }}
         />
       </Suspense>

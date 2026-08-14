@@ -9,6 +9,8 @@ const TrackingDashboard = lazy(() => import('./screens/TrackingDashboard'))
 const DeliveryPass = lazy(() => import('./screens/DeliveryPass'))
 const AdminPanel = lazy(() => import('./screens/AdminPanel'))
 const PricingEngineDemo = lazy(() => import('./screens/PricingEngineDemo'))
+const NotificationsPage = lazy(() => import('./screens/NotificationsPage'))
+const ProfilePage = lazy(() => import('./screens/ProfilePage'))
 const BottomNav = lazy(() => import('./components/navigation/BottomNav'))
 
 const SCREEN_PREFETCHERS: Record<Screen, () => Promise<unknown>> = {
@@ -18,6 +20,8 @@ const SCREEN_PREFETCHERS: Record<Screen, () => Promise<unknown>> = {
   delivery: () => import('./screens/DeliveryPass'),
   engine: () => import('./screens/PricingEngineDemo'),
   admin: () => import('./screens/AdminPanel'),
+  notifications: () => import('./screens/NotificationsPage'),
+  profile: () => import('./screens/ProfilePage'),
 }
 
 const NEXT_SCREEN_PROBABILITIES: Record<Screen, Screen[]> = {
@@ -27,9 +31,11 @@ const NEXT_SCREEN_PROBABILITIES: Record<Screen, Screen[]> = {
   delivery: ['home', 'tracking'],
   engine: ['home', 'product'],
   admin: ['home'],
+  notifications: ['profile', 'tracking'],
+  profile: ['tracking', 'home'],
 }
 
-type Screen = 'home' | 'product' | 'tracking' | 'delivery' | 'engine' | 'admin'
+type Screen = 'home' | 'product' | 'tracking' | 'delivery' | 'engine' | 'admin' | 'notifications' | 'profile'
 type AppNavigateTarget =
   | { screen: 'home' }
   | { screen: 'product'; productId?: string | number | null }
@@ -37,6 +43,8 @@ type AppNavigateTarget =
   | { screen: 'delivery'; orderRef?: string | null }
   | { screen: 'engine' }
   | { screen: 'admin' }
+  | { screen: 'notifications' }
+  | { screen: 'profile' }
 
 type BasicBottomNavProps = {
   activeScreen: Screen
@@ -241,6 +249,13 @@ export default function App() {
   }, [])
 
   useEffect(() => {
+    const requestedScreen = new URLSearchParams(window.location.search).get('screen')
+    if (requestedScreen === 'notifications' || requestedScreen === 'profile') {
+      setScreen(requestedScreen)
+    }
+  }, [])
+
+  useEffect(() => {
     if (typeof window === 'undefined') return
 
     const nav = navigator as Navigator & {
@@ -356,6 +371,8 @@ export default function App() {
       case 'delivery': return <DeliveryPass orderRef={selectedOrderRef} onBack={() => handleNavigate({ screen: 'home' })} />
       case 'engine':   return <PricingEngineDemo />
       case 'admin':    return <AdminPanel />
+      case 'notifications': return <NotificationsPage onBack={() => handleNavigate({ screen: 'home' })} />
+      case 'profile': return <ProfilePage onBack={() => handleNavigate({ screen: 'home' })} onOpenTracking={() => handleNavigate({ screen: 'tracking' })} />
     }
   }
 

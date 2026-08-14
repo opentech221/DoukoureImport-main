@@ -49,12 +49,31 @@ function getAdminTokenFromEnv(): string | null {
 
 const adminRateLimiter = createInMemoryRateLimiter({ windowMs: 60_000, maxRequests: 60 })
 const webhookRateLimiter = createInMemoryRateLimiter({ windowMs: 60_000, maxRequests: 120 })
+const pushSubscriptionRateLimiter = createInMemoryRateLimiter({ windowMs: 60_000, maxRequests: 12 })
 
 function getClientIp(c: Context): string {
   return c.req.header("x-forwarded-for")?.split(",")[0]?.trim()
     ?? c.req.header("x-real-ip")
     ?? "unknown"
 }
+
+app.post("/make-server-9c5a520a/push/subscribe", async (c) => {
+  const rateLimitRes = applyRateLimit(c, `push-subscribe:${getClientIp(c)}`, pushSubscriptionRateLimiter)
+  if (rateLimitRes) return rateLimitRes
+
+  const payload = await c.req.json().catch(() => null)
+  const subscription = payload?.subscription
+  if (!subscription || typeof subscription.endpoint !== "string" || !subscription.endpoint.startsWith("https://")) {
+    return c.json({ error: "A valid push subscription is required" }, 400)
+  }
+
+  const { error } = await adminClient()
+    .from("push_subscriptions")
+    .upsert({ endpoint: subscription.endpoint, subscription, updated_at: new Date().toISOString() }, { onConflict: "endpoint" })
+
+  if (error) return c.json({ error: "Unable to save push subscription" }, 500)
+  return c.json({ ok: true }, 201)
+})
 
 function applyRateLimit(
   c: Context,
