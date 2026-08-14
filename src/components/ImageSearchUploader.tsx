@@ -15,6 +15,7 @@ import {
   Loader2, CheckCircle, AlertCircle, Play, Volume2, VolumeX,
   Scissors, ZoomIn,
 } from 'lucide-react'
+import ImmersiveVisualSearch from './ImmersiveVisualSearch'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -80,19 +81,20 @@ function formatPhone(raw: string) {
 
 function DropZone({
   onFile,
+  onOpenCamera,
   dragging,
   onDragOver,
   onDragLeave,
   onDrop,
 }: {
   onFile: (f: File) => void
+  onOpenCamera: () => void
   dragging: boolean
   onDragOver: React.DragEventHandler
   onDragLeave: React.DragEventHandler
   onDrop: React.DragEventHandler
 }) {
   const fileRef = useRef<HTMLInputElement>(null)
-  const camRef  = useRef<HTMLInputElement>(null)
 
   return (
     <div
@@ -136,21 +138,15 @@ function DropZone({
         </button>
 
         {/* Déclencher caméra (PWA) */}
-        <label
+        <button
+          type="button"
+          onClick={onOpenCamera}
           className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm text-white cursor-pointer transition-transform active:scale-95"
           style={{ background: '#059669' }}
           aria-label="Ouvrir la caméra">
           <Camera size={14} />
           Caméra
-          <input
-            ref={camRef}
-            type="file"
-            accept="image/*,video/*"
-            capture="environment"
-            className="hidden"
-            onChange={e => { const f = e.target.files?.[0]; if (f) onFile(f) }}
-          />
-        </label>
+        </button>
       </div>
 
       {/* Input fichier caché (galerie) */}
@@ -375,6 +371,7 @@ export default function ImageSearchUploader({ onSubmit, className = '', title = 
   const [loading,      setLoading]      = useState(false)
   const [toast,        setToast]        = useState<ToastState>({ visible: false, success: false, message: '' })
   const [error,        setError]        = useState<string | null>(null)
+  const [cameraOpen,   setCameraOpen]   = useState(false)
 
   // Libère l'object URL à la suppression
   useEffect(() => {
@@ -485,6 +482,7 @@ export default function ImageSearchUploader({ onSubmit, className = '', title = 
           ) : (
             <DropZone
               onFile={handleFile}
+              onOpenCamera={() => setCameraOpen(true)}
               dragging={dragging}
               onDragOver={onDragOver}
               onDragLeave={onDragLeave}
@@ -622,6 +620,15 @@ export default function ImageSearchUploader({ onSubmit, className = '', title = 
       </form>
 
       <Toast state={toast} />
+      <ImmersiveVisualSearch
+        open={cameraOpen}
+        mode="sourcing"
+        onClose={() => setCameraOpen(false)}
+        onSearch={async (file) => {
+          handleFile(file)
+          setCameraOpen(false)
+        }}
+      />
     </>
   )
 }

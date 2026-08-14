@@ -5,6 +5,7 @@ interface Props {
   open: boolean
   onClose: () => void
   onSearch: (file: File) => void | Promise<void>
+  mode?: 'catalog' | 'sourcing'
 }
 
 type CameraFacing = 'environment' | 'user'
@@ -14,7 +15,7 @@ type TorchTrack = MediaStreamTrack & {
   applyConstraints?: (constraints: MediaTrackConstraints) => Promise<void>
 }
 
-export default function ImmersiveVisualSearch({ open, onClose, onSearch }: Props) {
+export default function ImmersiveVisualSearch({ open, onClose, onSearch, mode = 'catalog' }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const streamRef = useRef<MediaStream | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -168,7 +169,7 @@ export default function ImmersiveVisualSearch({ open, onClose, onSearch }: Props
           )}
           {searching ? (
             <div className="flex items-center gap-3 rounded-full bg-black/65 px-5 py-3 text-sm font-semibold backdrop-blur-sm">
-              <Loader2 size={18} className="animate-spin" /> Recherche dans le catalogue...
+              <Loader2 size={18} className="animate-spin" /> {mode === 'catalog' ? 'Recherche dans le catalogue...' : 'Photo ajoutée à votre demande...'}
             </div>
           ) : (
             <div className="flex items-center gap-4">
@@ -197,8 +198,8 @@ export default function ImmersiveVisualSearch({ open, onClose, onSearch }: Props
         <div className="mx-auto w-full max-w-xl rounded-3xl border border-white/15 bg-black/50 p-4 backdrop-blur-md">
           <div className="mb-3 flex items-center justify-between">
             <div>
-              <p className="text-sm font-bold">Recherche visuelle</p>
-              <p className="text-xs text-white/70">Trouvez un produit déjà présent au catalogue.</p>
+              <p className="text-sm font-bold">{mode === 'catalog' ? 'Recherche visuelle' : 'Photo pour demande de sourcing'}</p>
+              <p className="text-xs text-white/70">{mode === 'catalog' ? 'Trouvez un produit déjà présent au catalogue.' : 'Capturez le produit à faire rechercher par notre équipe.'}</p>
             </div>
             <Camera size={18} className="text-white/80" />
           </div>
@@ -226,7 +227,7 @@ export default function ImmersiveVisualSearch({ open, onClose, onSearch }: Props
             onChange={handleGalleryChange}
           />
           <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] text-white/60">
-            <Search size={12} /> Image traitée uniquement pour trouver un article du catalogue
+            <Search size={12} /> {mode === 'catalog' ? 'Image traitée uniquement pour trouver un article du catalogue' : 'Image ajoutée à votre demande de sourcing'}
           </p>
         </div>
       </div>
