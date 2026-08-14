@@ -1,6 +1,7 @@
 import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react'
 import { Bell, Camera, Home, Package, QrCode, Search, Settings, ShoppingBag, Calculator, User } from 'lucide-react'
 import { attachDeliveryPassReplayHandlers } from './utils/deliveryPassOffline'
+import InstallPWABanner from './components/InstallPWABanner'
 
 const HomePage = lazy(() => import('./screens/HomePage'))
 const ProductPage = lazy(() => import('./screens/ProductPage'))
@@ -9,7 +10,6 @@ const DeliveryPass = lazy(() => import('./screens/DeliveryPass'))
 const AdminPanel = lazy(() => import('./screens/AdminPanel'))
 const PricingEngineDemo = lazy(() => import('./screens/PricingEngineDemo'))
 const BottomNav = lazy(() => import('./components/navigation/BottomNav'))
-const InstallPWABanner = lazy(() => import('./components/InstallPWABanner'))
 
 const SCREEN_PREFETCHERS: Record<Screen, () => Promise<unknown>> = {
   home: () => import('./screens/HomePage'),
@@ -219,7 +219,6 @@ export default function App() {
   const [screen, setScreen] = useState<Screen>('home')
   const [selectedOrderRef, setSelectedOrderRef] = useState<string | null>(null)
   const [selectedProductId, setSelectedProductId] = useState<string | number | null>(null)
-  const [showPWABanner, setShowPWABanner] = useState(false)
   const [useEnhancedNav, setUseEnhancedNav] = useState(false)
   const [isConstrainedNetwork, setIsConstrainedNetwork] = useState(false)
   const [globalSearchQuery, setGlobalSearchQuery] = useState('')
@@ -239,30 +238,6 @@ export default function App() {
 
   useEffect(() => {
     return attachDeliveryPassReplayHandlers(30000)
-  }, [])
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-
-    const fallbackTimeout = window.setTimeout(() => {
-      setShowPWABanner(true)
-    }, 1500)
-
-    const idleWindow = window as Window & {
-      requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number
-      cancelIdleCallback?: (handle: number) => void
-    }
-
-    const idleHandle = idleWindow.requestIdleCallback?.(() => {
-      setShowPWABanner(true)
-    }, { timeout: 2000 })
-
-    return () => {
-      window.clearTimeout(fallbackTimeout)
-      if (idleHandle !== undefined) {
-        idleWindow.cancelIdleCallback?.(idleHandle)
-      }
-    }
   }, [])
 
   useEffect(() => {
@@ -454,11 +429,7 @@ export default function App() {
         />
       )}
 
-      {showPWABanner ? (
-        <Suspense fallback={null}>
-          <InstallPWABanner />
-        </Suspense>
-      ) : null}
+      <InstallPWABanner />
     </div>
   )
 }

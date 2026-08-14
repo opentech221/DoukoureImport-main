@@ -5,7 +5,11 @@ import './index.css'
 
 if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => undefined)
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then((registration) => {
+        registration.update().catch(() => undefined)
+      })
+      .catch(() => undefined)
   })
 }
 

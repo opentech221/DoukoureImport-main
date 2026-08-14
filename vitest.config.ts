@@ -5,5 +5,7 @@ export default defineConfig({
     environment: 'jsdom',
     include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
     reporters: ['verbose'],
+    pool: 'threads',
+    singleThread: true,
   },
 })

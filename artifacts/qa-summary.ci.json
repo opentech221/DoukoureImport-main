@@ -3,9 +3,9 @@
   "verdict": "passed",
   "budgets": {
     "entryBudgetKb": 40,
-    "totalBudgetKb": 425,
-    "measuredEntryKb": 16.48,
-    "measuredTotalKb": 421.88
+    "totalBudgetKb": 430,
+    "measuredEntryKb": 18.89,
+    "measuredTotalKb": 425.85
   },
   "failedSteps": []
 }

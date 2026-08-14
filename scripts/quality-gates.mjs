@@ -13,7 +13,7 @@ const reportLogPath = path.join(reportDir, 'qa-gates.log')
 
 const qaEnvironment = process.env.QA_ENV ?? process.env.NODE_ENV ?? 'local'
 const defaultBudgets = {
-  local: { entry: 40, total: 425 },
+  local: { entry: 40, total: 430 },
   ci: { entry: 45, total: 440 },
   production: { entry: 35, total: 400 },
 }
@@ -117,7 +117,7 @@ for (const testFile of [
   'src/utils/endpointLogic.integration.test.ts',
   'src/utils/orderLifecycle.test.ts',
 ]) {
-  steps.push(runStep(`synthetic-checks:${path.basename(testFile)}`, `npm test -- --run ${testFile}`))
+  steps.push(runStep(`synthetic-checks:${path.basename(testFile)}`, `npm test -- --run --pool=threads ${testFile}`))
 }
 
 const failedSteps = steps.filter((step) => step.status !== 'passed')

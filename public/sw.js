@@ -1,5 +1,5 @@
-const APP_CACHE = 'doukoure-import-app-v1'
-const APP_SHELL = ['/', '/manifest.json']
+const APP_CACHE = 'doukoure-import-app-v2'
+const APP_SHELL = ['/', '/manifest.json', '/icons/doukoure-import-icon.svg', '/icons/icon-192.png', '/icons/icon-512.png']
 const DB_NAME = 'doukoure-import-offline'
 const DB_VERSION = 1
 const QUEUE_STORE = 'delivery_pass_validation_queue'

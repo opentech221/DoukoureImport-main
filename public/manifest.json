@@ -1,10 +1,12 @@
 {
+  "id": "/",
   "name": "Doukoure Import",
-  "short_name": "DoukoureImport",
+  "short_name": "Doukoure",
   "description": "Importez depuis la Chine vers le Sénégal. Commandez, suivez, recevez.",
   "theme_color": "#1E1B4B",
   "background_color": "#F8FAFC",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
   "orientation": "portrait",
   "start_url": "/",
   "scope": "/",
@@ -21,6 +23,12 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/doukoure-import-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ],
   "categories": ["shopping", "finance"],
@@ -29,6 +37,11 @@
       "name": "Mes Commandes",
       "url": "/?screen=tracking",
       "description": "Suivre mes commandes"
+    },
+    {
+      "name": "Recherche visuelle",
+      "url": "/?action=visual-search",
+      "description": "Rechercher un produit avec une photo"
     }
   ]
 }
