@@ -5,6 +5,7 @@ import InstallPWABanner from './components/InstallPWABanner'
 
 const HomePage = lazy(() => import('./screens/HomePage'))
 const ProductPage = lazy(() => import('./screens/ProductPage'))
+const CatalogPage = lazy(() => import('./screens/CatalogPage'))
 const TrackingDashboard = lazy(() => import('./screens/TrackingDashboard'))
 const DeliveryPass = lazy(() => import('./screens/DeliveryPass'))
 const AdminPanel = lazy(() => import('./screens/AdminPanel'))
@@ -16,6 +17,7 @@ const BottomNav = lazy(() => import('./components/navigation/BottomNav'))
 const SCREEN_PREFETCHERS: Record<Screen, () => Promise<unknown>> = {
   home: () => import('./screens/HomePage'),
   product: () => import('./screens/ProductPage'),
+  catalog: () => import('./screens/CatalogPage'),
   tracking: () => import('./screens/TrackingDashboard'),
   delivery: () => import('./screens/DeliveryPass'),
   engine: () => import('./screens/PricingEngineDemo'),
@@ -25,8 +27,9 @@ const SCREEN_PREFETCHERS: Record<Screen, () => Promise<unknown>> = {
 }
 
 const NEXT_SCREEN_PROBABILITIES: Record<Screen, Screen[]> = {
-  home: ['product', 'tracking'],
-  product: ['tracking', 'delivery'],
+  home: ['catalog', 'tracking'],
+  product: ['home', 'tracking'],
+  catalog: ['home', 'tracking'],
   tracking: ['delivery', 'home'],
   delivery: ['home', 'tracking'],
   engine: ['home', 'product'],
@@ -35,10 +38,11 @@ const NEXT_SCREEN_PROBABILITIES: Record<Screen, Screen[]> = {
   profile: ['tracking', 'home'],
 }
 
-type Screen = 'home' | 'product' | 'tracking' | 'delivery' | 'engine' | 'admin' | 'notifications' | 'profile'
+type Screen = 'home' | 'product' | 'catalog' | 'tracking' | 'delivery' | 'engine' | 'admin' | 'notifications' | 'profile'
 type AppNavigateTarget =
   | { screen: 'home' }
   | { screen: 'product'; productId?: string | number | null }
+  | { screen: 'catalog' }
   | { screen: 'tracking'; orderRef?: string | null }
   | { screen: 'delivery'; orderRef?: string | null }
   | { screen: 'engine' }
@@ -67,7 +71,7 @@ type DesktopHeaderProps = {
 
 const BASIC_NAV_ITEMS: Array<{ id: Screen; label: string }> = [
   { id: 'home', label: 'Accueil' },
-  { id: 'product', label: 'Produit' },
+  { id: 'catalog', label: 'Catalogue' },
   { id: 'tracking', label: 'Suivi' },
   { id: 'delivery', label: 'Pass' },
   { id: 'engine', label: 'Moteur' },
@@ -76,7 +80,7 @@ const BASIC_NAV_ITEMS: Array<{ id: Screen; label: string }> = [
 
 const BASIC_NAV_ITEMS_MINIMAL: Array<{ id: Screen; label: string }> = [
   { id: 'home', label: 'Accueil' },
-  { id: 'product', label: 'Produit' },
+  { id: 'catalog', label: 'Catalogue' },
 ]
 
 function BasicBottomNav({
@@ -118,7 +122,7 @@ function BasicBottomNav({
 
 const DESKTOP_NAV_ITEMS: Array<{ id: Screen; label: string; Icon: typeof Home }> = [
   { id: 'home', label: 'Accueil', Icon: Home },
-  { id: 'product', label: 'Catalogue', Icon: ShoppingBag },
+  { id: 'catalog', label: 'Catalogue', Icon: ShoppingBag },
   { id: 'tracking', label: 'Suivi', Icon: Package },
   { id: 'delivery', label: 'Pass livraison', Icon: QrCode },
   { id: 'engine', label: 'Moteur tarifaire', Icon: Calculator },
@@ -367,6 +371,7 @@ export default function App() {
     switch (screen) {
       case 'home':     return <HomePage onNavigate={handleNavigate} globalSearchQuery={globalSearchQuery} visualSearchOpen={visualSearchOpen} visualSearchMode={visualSearchMode} onVisualSearchClose={() => setVisualSearchOpen(false)} requestedPanel={homePanel} onPanelHandled={() => setHomePanel(null)} />
       case 'product':  return <ProductPage onNavigate={handleNavigate} productId={selectedProductId} />
+      case 'catalog':  return <CatalogPage onBack={() => handleNavigate({ screen: 'home' })} onOpenProduct={(productId) => handleNavigate({ screen: 'product', productId })} />
       case 'tracking': return <TrackingDashboard orderRef={selectedOrderRef} onBack={() => handleNavigate({ screen: 'home' })} />
       case 'delivery': return <DeliveryPass orderRef={selectedOrderRef} onBack={() => handleNavigate({ screen: 'home' })} />
       case 'engine':   return <PricingEngineDemo />
