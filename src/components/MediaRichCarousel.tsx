@@ -3,7 +3,7 @@
  *
  * Carrousel rich media supportant images HD et vidéos MP4 avec :
  * - Lecteur HTML5 custom (play/pause overlay, mute/unmute, plein écran)
- * - Barre de miniatures avec badge "Play" sur les vidéos
+ * - Barre de miniatures avec badge "Lecture" sur les vidéos
  * - Navigation flèches gauche/droite
  * - Indicateur de pagination (dots)
  * - Swipe tactile mobile (touch events)
@@ -312,7 +312,7 @@ export default function MediaRichCarousel({ mediaList, className = '', aspectRat
           <button
             key={i}
             onClick={() => goTo(i)}
-            className="relative flex-shrink-0 w-14 h-14 rounded-xl overflow-hidden border-2 transition-all duration-150"
+            className="relative shrink-0 w-14 h-14 rounded-xl overflow-hidden border-2 transition-all duration-150"
             style={{ borderColor: i === index ? '#059669' : '#E2E8F0' }}
             aria-label={item.alt ?? `Miniature ${i + 1}`}>
 

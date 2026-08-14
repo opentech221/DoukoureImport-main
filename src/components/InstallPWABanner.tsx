@@ -68,7 +68,7 @@ export default function InstallPWABanner() {
           <span className="text-xl">🛍️</span>
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-white font-semibold text-sm leading-tight">Installer l'App Doukoure Import</p>
+          <p className="text-white font-semibold text-sm leading-tight">Installer l'application Doukouré Import</p>
           <p className="text-indigo-200 text-xs mt-0.5">{isIos ? 'Dans Safari : Partager puis Sur l’écran d’accueil' : 'Installez-la pour utiliser le suivi hors-ligne'}</p>
         </div>
         {isIos ? (

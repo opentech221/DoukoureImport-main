@@ -226,7 +226,7 @@ function ImagePreview({ media, onRemove }: { media: MediaFile; onRemove: () => v
           style={{ background: 'rgba(0,0,0,0.9)' }}
           onClick={() => setZoomed(false)}>
           <div className="relative w-full max-w-sm" onClick={e => e.stopPropagation()}>
-            <img src={media.objectUrl} alt="Zoom" className="w-full rounded-2xl" />
+            <img src={media.objectUrl} alt="Aperçu agrandi" className="w-full rounded-2xl" />
             <button
               onClick={() => setZoomed(false)}
               className="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center"

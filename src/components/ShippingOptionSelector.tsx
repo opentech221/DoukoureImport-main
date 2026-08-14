@@ -58,7 +58,7 @@ const MODE_META: Record<ShippingOption, {
   AIR_EXPRESS: {
     Icon: Plane,
     tagline: 'Le plus rapide',
-    pros: ['Tracking temps réel', 'Priorité douane', 'Idéal produits urgents'],
+    pros: ['Suivi en temps réel', 'Priorité douane', 'Idéal produits urgents'],
     color: '#1E1B4B',
     colorLight: '#EEF2FF',
   },
@@ -112,7 +112,7 @@ function ShippingCard({
     >
       {/* Card header */}
       <div className="flex items-center gap-3 px-4 py-3">
-        <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+        <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
           style={{ background: selected ? meta.color : '#E2E8F0' }}>
           <Icon size={16} style={{ color: selected ? 'white' : '#64748B' }} />
         </div>
@@ -254,7 +254,7 @@ function PricingCard({
             </p>
           </div>
           <div
-            className="flex-shrink-0 text-right transition-all duration-300"
+            className="shrink-0 text-right transition-all duration-300"
             style={{ opacity: animating ? 0.3 : 1, transform: animating ? 'translateY(4px)' : 'translateY(0)' }}
           >
             <span className="text-white font-black text-3xl leading-none font-mono">
@@ -300,13 +300,13 @@ function PricingCard({
           className="w-full flex items-center gap-2 px-4 py-3 text-left"
           aria-expanded={disclaimerOpen}
         >
-          <Info size={14} style={{ color: '#D97706' }} className="flex-shrink-0" />
+          <Info size={14} style={{ color: '#D97706' }} className="shrink-0" />
           <span className="flex-1 text-xs leading-snug" style={{ color: '#92400E' }}>
             Le solde (1/3) sera ajusté automatiquement si le poids réel diffère du poids estimé.
           </span>
           {disclaimerOpen
-            ? <ChevronUp size={13} className="text-slate-400 flex-shrink-0" />
-            : <ChevronDown size={13} className="text-slate-400 flex-shrink-0" />}
+            ? <ChevronUp size={13} className="text-slate-400 shrink-0" />
+            : <ChevronDown size={13} className="text-slate-400 shrink-0" />}
         </button>
 
         {disclaimerOpen && (

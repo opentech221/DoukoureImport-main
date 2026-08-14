@@ -88,7 +88,7 @@ export default function PricingEngineDemo() {
           <Calculator size={20} className="text-indigo-300" />
           <h1 className="text-white font-extrabold text-lg">Moteur de Calcul</h1>
         </div>
-        <p className="text-indigo-300 text-xs">Ticket 1.1 — Simulation interactive du pricing engine</p>
+        <p className="text-indigo-300 text-xs">Démonstration — Simulation interactive du moteur tarifaire</p>
       </div>
 
       {/* Inputs produit */}

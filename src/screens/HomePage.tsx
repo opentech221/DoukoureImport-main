@@ -277,7 +277,12 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
         <div className="relative mb-3 flex items-center justify-between">
           <div>
             <p className="text-indigo-300 text-xs font-medium tracking-wide uppercase">Bienvenue sur</p>
-            <h1 className="mt-0.5 text-xl font-extrabold leading-tight text-white">Doukoure Import</h1>
+            <div className="mt-0.5 flex items-center gap-2">
+              <span className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg bg-white shadow-sm">
+                <img src="/logo-preview.png" alt="Logo Doukouré Import" className="h-full w-full object-cover" />
+              </span>
+              <h1 className="text-xl font-extrabold leading-tight text-white">Doukouré Import</h1>
+            </div>
             <p className="mt-0.5 flex items-center gap-1.5 text-[11px] text-indigo-300">
               <span>🇨🇳</span>
               <span className="text-indigo-400">→</span>
