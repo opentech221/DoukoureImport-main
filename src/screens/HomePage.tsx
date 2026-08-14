@@ -1,5 +1,5 @@
 import { lazy, Suspense, useState, useEffect, useRef } from 'react'
-import { Search, Camera, ChevronRight, TrendingUp, Star, Bell, Loader2, X, User, PackagePlus } from 'lucide-react'
+import { Search, Camera, ChevronRight, TrendingUp, Star, Bell, Loader2, X, User, PackagePlus, Users, Clock } from 'lucide-react'
 import SharedContainerProgress from '../components/SharedContainerProgress'
 import ImageSearchUploader, { type SearchPayload } from '../components/ImageSearchUploader'
 import ImmersiveVisualSearch from '../components/ImmersiveVisualSearch'
@@ -35,6 +35,13 @@ const TAG_COLORS: Record<string, { bg: string; color: string }> = {
   Promo:     { bg: '#D97706', color: 'white' },
 }
 
+const GROUP_BUY_PREVIEW = [
+  { joined: 2, size: 3, endsIn: '02:18:42' },
+  { joined: 1, size: 3, endsIn: '01:07:18' },
+  { joined: 2, size: 3, endsIn: '03:42:10' },
+  { joined: 1, size: 3, endsIn: '00:46:55' },
+]
+
 type Product = { id: number; name: string; price_xof: number; image_url: string; rating: number; badge: string }
 type ContainerData = { targetCBM: number; allocatedCBM: number; departure: Date; name: string }
 
@@ -59,9 +66,11 @@ interface Props {
   visualSearchOpen?: boolean
   visualSearchMode?: 'catalog' | 'sourcing'
   onVisualSearchClose?: () => void
+  requestedPanel?: 'notifications' | 'profile' | null
+  onPanelHandled?: () => void
 }
 
-export default function HomePage({ onNavigate, globalSearchQuery = '', visualSearchOpen = false, visualSearchMode = 'sourcing', onVisualSearchClose }: Props) {
+export default function HomePage({ onNavigate, globalSearchQuery = '', visualSearchOpen = false, visualSearchMode = 'sourcing', onVisualSearchClose, requestedPanel, onPanelHandled }: Props) {
   const [searchQuery,  setSearchQuery]  = useState('')
   const [searchActive, setSearchActive] = useState(false)
   const [container,    setContainer]    = useState<ContainerData>(FALLBACK_CONTAINER)
@@ -86,6 +95,13 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
     setShowVisualSearch(visualSearchOpen)
     if (visualSearchOpen) setActiveVisualMode(visualSearchMode)
   }, [visualSearchOpen])
+
+  useEffect(() => {
+    if (!requestedPanel) return
+    setShowNotifs(requestedPanel === 'notifications')
+    setShowProfile(requestedPanel === 'profile')
+    onPanelHandled?.()
+  }, [onPanelHandled, requestedPanel])
 
   function closeVisualSearch() {
     setShowVisualSearch(false)
@@ -206,7 +222,7 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
     <div className="min-h-screen pb-24" style={{ background: '#F8FAFC', fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
 
       {/* ── Header héro ── */}
-      <div className="relative overflow-hidden px-4 pb-4 pt-6 md:px-8 md:pb-6"
+      <div className="relative overflow-hidden px-4 pb-4 pt-6 md:hidden"
         style={{ background: 'linear-gradient(160deg, #1E1B4B 0%, #312E81 100%)' }}>
         <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full opacity-10"
           style={{ background: 'radial-gradient(circle, #A5B4FC, transparent)' }} />
@@ -222,7 +238,7 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
               <span className="ml-1">Import direct Chine · Sénégal</span>
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 md:hidden">
             {/* Cloche notifications */}
             <button
               onClick={() => { setShowNotifs(true); setNotifRead(new Set(NOTIFICATIONS.map(n => n.id))) }}
@@ -332,6 +348,9 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
             {filteredProducts.map(p => {
               const tagStyle = TAG_COLORS[p.badge]
               const priceFormatted = new Intl.NumberFormat('fr-SN').format(p.price_xof)
+              const group = GROUP_BUY_PREVIEW[p.id % GROUP_BUY_PREVIEW.length]
+              const groupPrice = Math.round(p.price_xof * 0.92)
+              const remaining = group.size - group.joined
               return (
                 <button
                   key={p.id}
@@ -358,6 +377,12 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
                       <span className="flex items-center gap-0.5 text-xs text-slate-400">
                         <Star size={10} fill="#D97706" stroke="#D97706" /> {p.rating}
                       </span>
+                    </div>
+                    <div className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 p-2">
+                      <div className="flex items-center justify-between gap-2 text-[11px] font-bold text-emerald-800"><span className="flex items-center gap-1"><Users size={12} /> Achat groupé</span><span>-8%</span></div>
+                      <p className="mt-1 text-xs font-extrabold font-mono text-emerald-900">{new Intl.NumberFormat('fr-SN').format(groupPrice)} FCFA</p>
+                      <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-emerald-100"><div className="h-full rounded-full bg-success" style={{ width: `${(group.joined / group.size) * 100}%` }} /></div>
+                      <p className="mt-1.5 flex items-center justify-between gap-1 text-[10px] font-semibold text-emerald-800"><span>Encore {remaining} personne{remaining > 1 ? 's' : ''}</span><span className="flex items-center gap-1"><Clock size={10} /> {group.endsIn}</span></p>
                     </div>
                   </div>
                 </button>

@@ -106,13 +106,18 @@ export default function ProductPage({ onNavigate, productId }: Props) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [skuOpen, setSkuOpen] = useState(false);
   const [sku, setSku] = useState({ size: '42', color: 'Noir', quantity: 1 });
+  const [purchaseMode, setPurchaseMode] = useState<'solo' | 'group'>('solo');
 
-  const depositAmount = selection?.pricing.depositAmount ?? 0;
-  const balanceAmount = selection?.pricing.estimatedBalance ?? 0;
-  const shippingOption = selection?.option ?? "AIR_EXPRESS";
-  const groupPrice = Math.round((selection?.pricing.totalPrice ?? product.basePriceXOF) * 0.92);
-  const soloPrice = selection?.pricing.totalPrice ?? product.basePriceXOF;
+  const standardTotal = selection?.pricing.totalPrice ?? product.basePriceXOF;
+  const groupTotal = Math.round(standardTotal * 0.92);
+  const selectedUnitTotal = purchaseMode === 'group' ? groupTotal : standardTotal;
   const skuAdjustment = sku.color === 'Rouge' ? 1500 : sku.color === 'Blanc' ? 500 : 0;
+  const selectedTotal = selectedUnitTotal * sku.quantity + skuAdjustment * sku.quantity;
+  const depositAmount = Math.round(selectedTotal * (2 / 3));
+  const balanceAmount = selectedTotal - depositAmount;
+  const shippingOption = selection?.option ?? "AIR_EXPRESS";
+  const groupPrice = groupTotal;
+  const soloPrice = standardTotal;
 
   useEffect(() => {
     async function loadProduct() {
@@ -381,8 +386,8 @@ export default function ProductPage({ onNavigate, productId }: Props) {
             </p>
           </div>
               </div>
-              <GroupBuyPanel soloPriceXOF={soloPrice} groupPriceXOF={groupPrice} onShare={handleShare} />
-              <PricingTiers quantity={sku.quantity} unitPriceXOF={soloPrice + skuAdjustment} />
+              <GroupBuyPanel soloPriceXOF={soloPrice} groupPriceXOF={groupPrice} selectedMode={purchaseMode} onSelectMode={setPurchaseMode} onShare={handleShare} />
+              <PricingTiers quantity={sku.quantity} unitPriceXOF={selectedUnitTotal + skuAdjustment} />
               <TradeAssurance />
             </section>
 
@@ -402,42 +407,26 @@ export default function ProductPage({ onNavigate, productId }: Props) {
                   <span className="float-right text-xs font-semibold text-primary">Modifier</span>
                 </button>
 
-                <div className="hidden lg:block">
-                  <ProductStickyActions
-                    productName={product.name}
-                    productRef={product.ref}
-                    depositAmountXOF={depositAmount}
-                    selectedShippingOption={shippingOption}
-                    basePriceXOF={product.basePriceXOF}
-                    balanceXOF={balanceAmount}
-                    estimatedWeight={product.estimatedWeight}
-                    onAddToCart={handleAddToCart}
-                    onOrderCreated={handleOrderCreated}
-                  />
-                </div>
               </div>
             </aside>
           </div>
         </main>
 
-        {/* Espace pour la barre sticky mobile */}
-        <div className="h-36 lg:hidden" />
+        <div className="h-36" />
       </div>
 
       {/* ── CTA Sticky ── */}
-      <div className="lg:hidden">
-        <ProductStickyActions
-          productName={product.name}
-          productRef={product.ref}
-          depositAmountXOF={depositAmount}
-          selectedShippingOption={shippingOption}
-          basePriceXOF={product.basePriceXOF}
-          balanceXOF={balanceAmount}
-          estimatedWeight={product.estimatedWeight}
-          onAddToCart={handleAddToCart}
-          onOrderCreated={handleOrderCreated}
-        />
-      </div>
+      <ProductStickyActions
+        productName={product.name}
+        productRef={product.ref}
+        depositAmountXOF={depositAmount}
+        selectedShippingOption={shippingOption}
+        basePriceXOF={product.basePriceXOF}
+        balanceXOF={balanceAmount}
+        estimatedWeight={product.estimatedWeight}
+        onAddToCart={handleAddToCart}
+        onOrderCreated={handleOrderCreated}
+      />
 
       {/* ── Mini-panier ── */}
       {cartOpen && (

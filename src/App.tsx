@@ -1,5 +1,5 @@
 import { Suspense, lazy, useCallback, useEffect, useRef, useState } from 'react'
-import { Bell, Camera, Home, Package, QrCode, Search, Settings, ShoppingBag, Calculator } from 'lucide-react'
+import { Bell, Camera, Home, Package, QrCode, Search, Settings, ShoppingBag, Calculator, User } from 'lucide-react'
 import { attachDeliveryPassReplayHandlers } from './utils/deliveryPassOffline'
 
 const HomePage = lazy(() => import('./screens/HomePage'))
@@ -53,6 +53,8 @@ type DesktopHeaderProps = {
   onNavigate: (screen: Screen) => void
   onIntentPrefetch: (screen: Screen) => void
   onOpenVisualSearch: () => void
+  onOpenNotifications: () => void
+  onOpenProfile: () => void
 }
 
 const BASIC_NAV_ITEMS: Array<{ id: Screen; label: string }> = [
@@ -122,6 +124,8 @@ function DesktopHeader({
   onNavigate,
   onIntentPrefetch,
   onOpenVisualSearch,
+  onOpenNotifications,
+  onOpenProfile,
 }: DesktopHeaderProps) {
   return (
     <header className="sticky top-0 z-40 hidden border-b border-border bg-card/95 shadow-sm backdrop-blur md:block">
@@ -184,10 +188,19 @@ function DesktopHeader({
 
         <button
           type="button"
-          className="relative hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border text-text-muted transition hover:bg-surface-muted lg:flex"
+          onClick={onOpenNotifications}
+          className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border text-text-muted transition hover:bg-surface-muted"
           aria-label="Notifications"
         >
           <Bell size={17} />
+        </button>
+        <button
+          type="button"
+          onClick={onOpenProfile}
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border text-text-muted transition hover:bg-surface-muted xl:w-auto xl:gap-2 xl:px-3"
+          aria-label="Mon compte"
+        >
+          <User size={16} /> <span className="hidden xl:inline">Mon compte</span>
         </button>
       </div>
     </header>
@@ -212,6 +225,7 @@ export default function App() {
   const [globalSearchQuery, setGlobalSearchQuery] = useState('')
   const [visualSearchOpen, setVisualSearchOpen] = useState(false)
   const [visualSearchMode, setVisualSearchMode] = useState<'catalog' | 'sourcing'>('sourcing')
+  const [homePanel, setHomePanel] = useState<'notifications' | 'profile' | null>(null)
   const prefetchedScreensRef = useRef<Set<Screen>>(new Set())
   const lastTouchPrefetchAtRef = useRef(0)
 
@@ -361,7 +375,7 @@ export default function App() {
 
   const renderScreen = () => {
     switch (screen) {
-      case 'home':     return <HomePage onNavigate={handleNavigate} globalSearchQuery={globalSearchQuery} visualSearchOpen={visualSearchOpen} visualSearchMode={visualSearchMode} onVisualSearchClose={() => setVisualSearchOpen(false)} />
+      case 'home':     return <HomePage onNavigate={handleNavigate} globalSearchQuery={globalSearchQuery} visualSearchOpen={visualSearchOpen} visualSearchMode={visualSearchMode} onVisualSearchClose={() => setVisualSearchOpen(false)} requestedPanel={homePanel} onPanelHandled={() => setHomePanel(null)} />
       case 'product':  return <ProductPage onNavigate={handleNavigate} productId={selectedProductId} />
       case 'tracking': return <TrackingDashboard orderRef={selectedOrderRef} onBack={() => handleNavigate({ screen: 'home' })} />
       case 'delivery': return <DeliveryPass orderRef={selectedOrderRef} onBack={() => handleNavigate({ screen: 'home' })} />
@@ -391,6 +405,14 @@ export default function App() {
         onOpenVisualSearch={() => {
           setVisualSearchMode('catalog')
           setVisualSearchOpen(true)
+          if (screen !== 'home') setScreen('home')
+        }}
+        onOpenNotifications={() => {
+          setHomePanel('notifications')
+          if (screen !== 'home') setScreen('home')
+        }}
+        onOpenProfile={() => {
+          setHomePanel('profile')
           if (screen !== 'home') setScreen('home')
         }}
       />

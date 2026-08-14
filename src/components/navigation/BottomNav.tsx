@@ -25,7 +25,7 @@ export default function BottomNav({
 }: BottomNavProps) {
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-100 max-w-md mx-auto"
+      className="fixed bottom-0 left-0 right-0 z-40 mx-auto max-w-md border-t border-slate-100 md:hidden"
       style={{ background: "rgba(255,255,255,0.97)", backdropFilter: "blur(12px)" }}>
       <div className="flex items-center justify-around px-1 py-2">
         {NAV.map(({ id, label, Icon }) => {

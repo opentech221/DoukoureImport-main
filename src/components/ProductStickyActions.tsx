@@ -100,7 +100,7 @@ export default function ProductStickyActions({
     <>
       {/* ── Barre sticky ── */}
       <div
-        className="fixed bottom-0 left-0 right-0 z-40 space-y-2 border-t border-slate-100 px-4 py-3 lg:static lg:mt-6 lg:rounded-xl lg:border lg:p-0 lg:pt-5 lg:shadow-none"
+        className="fixed bottom-0 left-0 right-0 z-40 space-y-2 border-t border-slate-100 px-4 py-3 lg:bottom-6 lg:left-auto lg:right-6 lg:w-[360px] lg:rounded-2xl lg:border lg:p-3 lg:shadow-2xl"
         style={{
           background: "rgba(255,255,255,0.92)",
           backdropFilter: "blur(16px)",
@@ -109,7 +109,7 @@ export default function ProductStickyActions({
       >
         <button
           onClick={() => setModal(true)}
-          className="w-full py-4 rounded-2xl font-extrabold text-white text-base shadow-lg transition-transform active:scale-95"
+          className="w-full rounded-xl py-3.5 text-sm font-extrabold text-white shadow-lg transition-transform active:scale-95"
           style={{
             background: "linear-gradient(135deg, #059669 0%, #10B981 100%)",
             minHeight: 52,
@@ -122,7 +122,7 @@ export default function ProductStickyActions({
           href={`https://wa.me/221770000000?text=${waText}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl font-semibold text-sm border-2 transition-transform active:scale-95"
+          className="flex w-full items-center justify-center gap-2 rounded-xl border-2 py-2.5 text-sm font-semibold transition-transform active:scale-95"
           style={{ color: "#25D366", borderColor: "#25D366" }}
         >
           <span className="text-lg">📱</span> Poser une question sur WhatsApp
