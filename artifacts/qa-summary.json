@@ -1,96 +1,96 @@
 {
-  "generatedAt": "2026-08-14T12:04:44.534Z",
-  "environment": "local",
+  "generatedAt": "2026-08-14T23:23:09.515Z",
+  "environment": "ci",
   "verdict": "passed",
   "budgets": {
     "status": "passed",
-    "entryBundleKb": 18.89,
-    "totalJsKb": 425.85,
-    "entryBudgetKb": 40,
-    "totalBudgetKb": 430
+    "entryBundleKb": 20.2,
+    "totalJsKb": 447.78,
+    "entryBudgetKb": 45,
+    "totalBudgetKb": 475
   },
   "steps": [
     {
       "label": "build",
       "status": "passed",
-      "startedAt": "2026-08-14T12:01:55.997Z",
-      "finishedAt": "2026-08-14T12:02:02.946Z"
+      "startedAt": "2026-08-14T23:22:54.812Z",
+      "finishedAt": "2026-08-14T23:22:55.652Z"
     },
     {
       "label": "design-system",
       "status": "passed",
-      "startedAt": "2026-08-14T12:02:02.946Z",
-      "finishedAt": "2026-08-14T12:02:04.507Z"
+      "startedAt": "2026-08-14T23:22:55.652Z",
+      "finishedAt": "2026-08-14T23:22:55.796Z"
     },
     {
       "label": "bundle-budgets",
       "status": "passed",
-      "startedAt": "2026-08-14T12:02:04.512Z",
-      "finishedAt": "2026-08-14T12:02:04.512Z",
-      "entryBundleKb": 18.89,
-      "totalJsKb": 425.85,
-      "entryBudgetKb": 40,
-      "totalBudgetKb": 430
+      "startedAt": "2026-08-14T23:22:55.797Z",
+      "finishedAt": "2026-08-14T23:22:55.797Z",
+      "entryBundleKb": 20.2,
+      "totalJsKb": 447.78,
+      "entryBudgetKb": 45,
+      "totalBudgetKb": 475
     },
     {
       "label": "synthetic-checks:ProductPage.test.tsx",
       "status": "passed",
-      "startedAt": "2026-08-14T12:02:04.512Z",
-      "finishedAt": "2026-08-14T12:02:19.026Z"
+      "startedAt": "2026-08-14T23:22:55.797Z",
+      "finishedAt": "2026-08-14T23:22:57.346Z"
     },
     {
       "label": "synthetic-checks:TrackingDashboard.test.tsx",
       "status": "passed",
-      "startedAt": "2026-08-14T12:02:19.026Z",
-      "finishedAt": "2026-08-14T12:02:32.357Z"
+      "startedAt": "2026-08-14T23:22:57.346Z",
+      "finishedAt": "2026-08-14T23:22:58.847Z"
     },
     {
       "label": "synthetic-checks:DeliveryPass.test.tsx",
       "status": "passed",
-      "startedAt": "2026-08-14T12:02:32.357Z",
-      "finishedAt": "2026-08-14T12:02:44.405Z"
+      "startedAt": "2026-08-14T23:22:58.847Z",
+      "finishedAt": "2026-08-14T23:23:00.285Z"
     },
     {
       "label": "synthetic-checks:GlobalShippingRateSettings.test.tsx",
       "status": "passed",
-      "startedAt": "2026-08-14T12:02:44.405Z",
-      "finishedAt": "2026-08-14T12:03:07.069Z"
+      "startedAt": "2026-08-14T23:23:00.285Z",
+      "finishedAt": "2026-08-14T23:23:01.705Z"
     },
     {
       "label": "synthetic-checks:DeliveryValidationQRCode.test.tsx",
       "status": "passed",
-      "startedAt": "2026-08-14T12:03:07.069Z",
-      "finishedAt": "2026-08-14T12:03:39.512Z"
+      "startedAt": "2026-08-14T23:23:01.705Z",
+      "finishedAt": "2026-08-14T23:23:03.175Z"
     },
     {
       "label": "synthetic-checks:OrderTrackingTimeline.test.tsx",
       "status": "passed",
-      "startedAt": "2026-08-14T12:03:39.512Z",
-      "finishedAt": "2026-08-14T12:03:54.091Z"
+      "startedAt": "2026-08-14T23:23:03.176Z",
+      "finishedAt": "2026-08-14T23:23:04.634Z"
     },
     {
       "label": "synthetic-checks:deliveryPassOffline.test.ts",
       "status": "passed",
-      "startedAt": "2026-08-14T12:03:54.091Z",
-      "finishedAt": "2026-08-14T12:04:06.554Z"
+      "startedAt": "2026-08-14T23:23:04.634Z",
+      "finishedAt": "2026-08-14T23:23:05.886Z"
     },
     {
       "label": "synthetic-checks:paymentService.test.ts",
       "status": "passed",
-      "startedAt": "2026-08-14T12:04:06.554Z",
-      "finishedAt": "2026-08-14T12:04:17.881Z"
+      "startedAt": "2026-08-14T23:23:05.886Z",
+      "finishedAt": "2026-08-14T23:23:07.099Z"
     },
     {
       "label": "synthetic-checks:endpointLogic.integration.test.ts",
       "status": "passed",
-      "startedAt": "2026-08-14T12:04:17.881Z",
-      "finishedAt": "2026-08-14T12:04:30.479Z"
+      "startedAt": "2026-08-14T23:23:07.099Z",
+      "finishedAt": "2026-08-14T23:23:08.310Z"
     },
     {
       "label": "synthetic-checks:orderLifecycle.test.ts",
       "status": "passed",
-      "startedAt": "2026-08-14T12:04:30.479Z",
-      "finishedAt": "2026-08-14T12:04:44.531Z"
+      "startedAt": "2026-08-14T23:23:08.310Z",
+      "finishedAt": "2026-08-14T23:23:09.515Z"
     }
   ]
 }
