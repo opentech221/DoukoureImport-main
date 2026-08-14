@@ -1,6 +1,6 @@
 import { Home, Package, QrCode, ShoppingBag, Settings, Calculator } from "lucide-react";
 
-type Screen = "home" | "product" | "tracking" | "delivery" | "engine" | "admin";
+type Screen = "home" | "catalog" | "product" | "tracking" | "delivery" | "engine" | "admin";
 
 type BottomNavProps = {
   activeScreen: Screen;
@@ -11,7 +11,7 @@ type BottomNavProps = {
 
 const NAV: Array<{ id: Exclude<Screen, "admin">; label: string; Icon: typeof Home }> = [
   { id: "home", label: "Accueil", Icon: Home },
-  { id: "product", label: "Produit", Icon: ShoppingBag },
+  { id: "catalog", label: "Catalogue", Icon: ShoppingBag },
   { id: "tracking", label: "Suivi", Icon: Package },
   { id: "delivery", label: "Pass", Icon: QrCode },
   { id: "engine", label: "Moteur", Icon: Calculator },
