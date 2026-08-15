@@ -1,11 +1,11 @@
 # QA Summary
 
-- Environment: local
+- Environment: ci
 - Verdict: passed
-- Entry bundle budget: 40 KB
-- Total JS budget: 430 KB
-- Entry bundle measured: 18.89 KB
-- Total JS measured: 425.85 KB
+- Entry bundle budget: 45 KB
+- Total JS budget: 475 KB
+- Entry bundle measured: 20.2 KB
+- Total JS measured: 447.78 KB
 
 ## Steps
 - build: passed
