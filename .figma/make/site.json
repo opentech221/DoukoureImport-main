@@ -5,10 +5,10 @@
     "index": true
   },
   "icons": {
-    "icon": "/logo.png"
+    "icon": "/logo.png?v=20260815"
   },
   "openGraph": {
-    "image": "https://doukoure-import.shop/logo.png"
+    "image": "https://doukoure-import.shop/og-image.png?v=20260815"
   },
   "accessibility": {
     "addBypassLinks": false,
