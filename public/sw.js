@@ -1,13 +1,14 @@
-const APP_CACHE = 'doukoure-import-app-v3'
+const APP_CACHE = 'doukoure-import-app-v4'
 const APP_SHELL = [
   '/',
   '/manifest.json',
   '/favicon.svg',
-  '/logo.png',
-  '/og-image.png',
+  '/logo-v20260815.png',
+  '/og-image-v20260815.png',
   '/icons/doukoure-import-icon.svg',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
+  '/icons/doukoure-import-icon-v20260815.svg',
+  '/icons/icon-192-v20260815.png',
+  '/icons/icon-512-v20260815.png',
 ]
 const DB_NAME = 'doukoure-import-offline'
 const DB_VERSION = 1
