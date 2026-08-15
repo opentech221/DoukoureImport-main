@@ -1,5 +1,14 @@
-const APP_CACHE = 'doukoure-import-app-v2'
-const APP_SHELL = ['/', '/manifest.json', '/icons/doukoure-import-icon.svg', '/icons/icon-192.png', '/icons/icon-512.png']
+const APP_CACHE = 'doukoure-import-app-v3'
+const APP_SHELL = [
+  '/',
+  '/manifest.json',
+  '/favicon.svg',
+  '/logo.png',
+  '/og-image.png',
+  '/icons/doukoure-import-icon.svg',
+  '/icons/icon-192.png',
+  '/icons/icon-512.png',
+]
 const DB_NAME = 'doukoure-import-offline'
 const DB_VERSION = 1
 const QUEUE_STORE = 'delivery_pass_validation_queue'
@@ -123,7 +132,11 @@ self.addEventListener('fetch', (event) => {
     url.pathname.endsWith('.js') ||
     url.pathname.endsWith('.css') ||
     url.pathname.endsWith('.html') ||
-    url.pathname.endsWith('.json')
+    url.pathname.endsWith('.json') ||
+    url.pathname.endsWith('.png') ||
+    url.pathname.endsWith('.svg') ||
+    url.pathname.endsWith('.ico') ||
+    url.pathname.endsWith('.webp')
   )
 
   if (!isAppShell) return
