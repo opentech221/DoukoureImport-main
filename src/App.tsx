@@ -149,7 +149,7 @@ function DesktopHeader({
           aria-label="Retour à l'accueil Doukoure Import"
         >
           <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white shadow-sm">
-            <img src="/logo-v20260815.png" alt="Logo Doukouré Import" className="h-10 w-10 object-contain" />
+            <img src="/icons/doukoure-import-icon.svg" alt="Logo Doukouré Import" className="h-10 w-10 object-contain" />
           </span>
           <span className="hidden xl:block">
             <span className="block text-sm font-extrabold leading-tight text-text">Doukoure Import</span>
