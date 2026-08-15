@@ -148,8 +148,8 @@ function DesktopHeader({
           className="flex shrink-0 items-center gap-3 text-left"
           aria-label="Retour à l'accueil Doukoure Import"
         >
-          <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-white shadow-sm">
-            <img src="/logo-preview.png" alt="Logo Doukouré Import" className="h-full w-full object-cover" />
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-white shadow-sm">
+            <img src="/logo.png" alt="Logo Doukouré Import" className="h-10 w-10 object-contain" />
           </span>
           <span className="hidden xl:block">
             <span className="block text-sm font-extrabold leading-tight text-text">Doukoure Import</span>

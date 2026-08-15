@@ -278,8 +278,8 @@ export default function HomePage({ onNavigate, globalSearchQuery = '', visualSea
           <div>
             <p className="text-indigo-300 text-xs font-medium tracking-wide uppercase">Bienvenue sur</p>
             <div className="mt-0.5 flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg bg-white shadow-sm">
-                <img src="/logo-preview.png" alt="Logo Doukouré Import" className="h-full w-full object-cover" />
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white shadow-sm">
+                <img src="/logo.png" alt="Logo Doukouré Import" className="h-8 w-8 object-contain" />
               </span>
               <h1 className="text-xl font-extrabold leading-tight text-white">Doukouré Import</h1>
             </div>
