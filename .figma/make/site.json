@@ -1,7 +1,14 @@
 {
-  "description": "Offers a responsive e-commerce platform with dynamic pricing, social commerce features, delivery tracking, and admin tools for seamless import sales management.",
+  "title": "Doukouré Import - Achat & Logistique",
+  "description": "Achetez facilement en Chine depuis le Sénégal. Profitez d'achats groupés, d'un acompte sécurisé à 2/3 et d'un suivi de livraison en temps réel.",
   "robots": {
-    "index": false
+    "index": true
+  },
+  "icons": {
+    "icon": "/favicon.svg"
+  },
+  "openGraph": {
+    "image": "https://doukoure-import.shop/logo-preview.png"
   },
   "accessibility": {
     "addBypassLinks": false,
