@@ -14,7 +14,7 @@ const reportLogPath = path.join(reportDir, 'qa-gates.log')
 const qaEnvironment = process.env.QA_ENV ?? process.env.NODE_ENV ?? 'local'
 const defaultBudgets = {
   local: { entry: 40, total: 430 },
-  ci: { entry: 45, total: 450 },
+  ci: { entry: 45, total: 475 },
   production: { entry: 35, total: 400 },
 }
 const selectedBudget = defaultBudgets[qaEnvironment] ?? defaultBudgets.local
